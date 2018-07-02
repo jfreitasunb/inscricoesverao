@@ -80,6 +80,8 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 			
             $configura_nova_inscricao_pos->save();
 
+            dd($configura_nova_inscricao_pos->id_inscricao_verao);
+
 			// $dados_email['inicio_inscricao'] = $request->inicio_inscricao;
 			// $dados_email['fim_inscricao'] = $request->fim_inscricao;
 
