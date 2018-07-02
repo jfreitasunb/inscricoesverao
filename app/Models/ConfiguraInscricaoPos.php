@@ -24,9 +24,7 @@ class ConfiguraInscricaoPos extends Model
     protected $fillable = [ 
         'inicio_inscricao', 
         'fim_inscricao',
-        'prazo_carta',
         'programa',
-        'edital',
         'id_coordenador',
     ];
 
