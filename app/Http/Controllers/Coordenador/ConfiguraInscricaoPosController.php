@@ -67,56 +67,35 @@ class ConfiguraInscricaoPosController extends CoordenadorController
     
     	$inicio = Carbon::createFromFormat('d/m/Y', $request->inicio_inscricao);
     	$fim = Carbon::createFromFormat('d/m/Y', $request->fim_inscricao);
-    	$prazo = Carbon::createFromFormat('d/m/Y', $request->prazo_carta);
 
     	$data_inicio = $inicio->format('Y-m-d');
     	$data_fim = $fim->format('Y-m-d');
-    	$prazo_carta = $prazo->format('Y-m-d');
-
 
     	if ($configura_nova_inscricao_pos->autoriza_configuracao_inscricao($data_inicio)) {
 
     		$configura_nova_inscricao_pos->inicio_inscricao = $data_inicio;
 			$configura_nova_inscricao_pos->fim_inscricao = $data_fim;
-			$configura_nova_inscricao_pos->prazo_carta = $prazo_carta;
-			$configura_nova_inscricao_pos->edital = $request->edital_ano."-".$request->edital_numero;
-			$configura_nova_inscricao_pos->programa = implode("_", $request->escolhas_coordenador);
+			$configura_nova_inscricao_pos->tipo_evento = implode("_", $request->escolhas_coordenador);
 			$configura_nova_inscricao_pos->id_coordenador = $user->id_user;
+			
+            $configura_nova_inscricao_pos->save();
 
-			$temp_file = $request->edital->store("arquivos_temporarios");
+			// $dados_email['inicio_inscricao'] = $request->inicio_inscricao;
+			// $dados_email['fim_inscricao'] = $request->fim_inscricao;
 
-        	$nome_temporario_edital = $local_documentos.$temp_file;
-
-	        $nome_final_edital = $arquivos_editais."Edital_MAT_".$configura_nova_inscricao_pos->edital.".pdf";
-
-			if (File::copy($nome_temporario_edital,$nome_final_edital)) {
+			// foreach ($request->escolhas_coordenador as $key) {
 				
-				File::delete($nome_temporario_edital);
-				$configura_nova_inscricao_pos->save();
+			// 	$nome_programa_pos = new ProgramaPos();
 
-				$dados_email['inicio_inscricao'] = $request->inicio_inscricao;
-				$dados_email['fim_inscricao'] = $request->fim_inscricao;
-				$dados_email['prazo_carta'] = $request->prazo_carta;
+			// 	$temp[] = $nome_programa_pos->pega_programa_pos_mat($key, $this->locale_default);
+			// }
 
-				foreach ($request->escolhas_coordenador as $key) {
-					
-					$nome_programa_pos = new ProgramaPos();
+			// $dados_email['programa'] = implode('/', $temp);
 
-					$temp[] = $nome_programa_pos->pega_programa_pos_mat($key, $this->locale_default);
-				}
+			// Notification::send(User::find('1'), new NotificaNovaInscricao($dados_email));
 
-				$dados_email['programa'] = implode('/', $temp);
-
-				Notification::send(User::find('1'), new NotificaNovaInscricao($dados_email));
-
-				notify()->flash('Inscrição configurada com sucesso.','success');
-				return redirect()->route('configura.inscricao');
-
-
-			}else{
-				notify()->flash('Houve um problema na hora de enviar o edital. Tente novamente.','error');
-				return redirect()->route('configura.inscricao');
-			}
+			notify()->flash('Inscrição configurada com sucesso.','success');
+			return redirect()->route('configura.inscricao');
     	}else{
     		notify()->flash('Já existe uma inscrição ativa para esse período.','error');
 			return redirect()->back('configura.inscricao');
