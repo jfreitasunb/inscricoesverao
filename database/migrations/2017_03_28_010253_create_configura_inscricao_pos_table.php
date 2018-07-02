@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConfiguraInscricaoPosTable extends Migration
+class CreateConfiguraInscricaoVeraoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateConfiguraInscricaoPosTable extends Migration
      */
     public function up()
     {
-        Schema::create('configura_inscricao_pos', function (Blueprint $table){
-            $table->increments('id_inscricao_pos');
+        Schema::create('configura_inscricao_verao', function (Blueprint $table){
+            $table->increments('id_inscricao_verao');
             $table->date('inicio_inscricao');
             $table->date('fim_inscricao');
-            $table->string('programa', 7);
+            $table->string('tipo_evendo', 7);
             $table->unsignedInteger('id_coordenador');
             $table->foreign('id_coordenador')->references('id_user')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -31,6 +31,6 @@ class CreateConfiguraInscricaoPosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('configura_inscricao_pos');
+        Schema::drop('configura_inscricao_verao');
     }
 }
