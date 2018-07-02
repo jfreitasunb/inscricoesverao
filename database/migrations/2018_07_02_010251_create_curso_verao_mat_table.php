@@ -15,6 +15,8 @@ class CreateCursoVeraoMatTable extends Migration
     {
         Schema::create('curso_verao_mat', function (Blueprint $table){
             $table->increments('id_curso_verao');
+            $table->unsignedInteger('id_inscricao_verao');
+            $table->foreign('id_inscricao_verao')->references('id_inscricao_verao')->on('configura_inscricao_verao')->onDelete('cascade');
             $table->string('nome_ptbr',200);
             $table->string('nome_en',200)->nullable();
             $table->string('nome_es',200)->nullable();
