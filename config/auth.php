@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Posmat\Models\User::class,
+            'model' => Veraomat\Models\User::class,
         ],
 
         // 'users' => [
