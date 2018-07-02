@@ -45,6 +45,17 @@
             </div>
           @endforeach
 
+        <legend>Escolher os cursos do Verão:</legend>
+          @foreach($cursos_verao_mat as $curso)
+            <div class="col-xs-6">
+              <div class="form-group form-inline">
+                <label>
+                  {!! Form::checkbox('escolhas_coordenador[]', $curso->id_curso_verao, null) !!} {{ $curso->nome_ptbr }} 
+                </label> 
+              </div>
+            </div>
+          @endforeach
+
         @if ($errors->has('edital'))
           <span class="help-block">{{ $errors->first('edital') }}</span>
         @endif
