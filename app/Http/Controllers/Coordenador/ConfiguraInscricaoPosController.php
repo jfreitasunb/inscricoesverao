@@ -41,7 +41,7 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
         $cursos_verao_mat = CursoVeraoMat::get()->all();
 
-		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('programas_pos_mat, curso_verao_mat'));
+		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('programas_pos_mat', 'cursos_verao_mat'));
 	}
 
 	public function postConfiguraInscricaoPos(Request $request)
