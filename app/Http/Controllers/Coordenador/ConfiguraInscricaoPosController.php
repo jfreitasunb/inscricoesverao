@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
 use Veraomat\Models\CursoVeraoMat;
-use Veraomat\Models\CartaRecomendacao;
+use Veraomat\Models\OfertaCursoVerao;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\ProgramaPos;
 use Veraomat\Models\FinalizaInscricao;
@@ -54,6 +54,9 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
         $escolhas_coordenador = $request->escolhas_coordenador;
 
+        
+
+
         if (is_null($request->curso_verao) and (in_array(2, $escolhas_coordenador))) {
                     
             notify()->flash(trans('Você deve selecionar as disciplinas do Verão.'),'warning');
@@ -80,7 +83,20 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 			
             $configura_nova_inscricao_pos->save();
 
-            dd($configura_nova_inscricao_pos->id_inscricao_verao);
+            foreach ($request->curso_verao as $curso) {
+                
+                $oferta_verao = new OfertaCursoVerao;
+
+                $oferta_verao->id_inscricao_verao = $configura_nova_inscricao_pos->id_inscricao_verao;
+
+                $oferta_verao->id_curso_verao = (int)$curso;
+
+                $oferta_verao->seleciona_pos = $request->seleciona_pos[(int)$curso];
+
+                $oferta_verao->save();
+            }
+
+            
 
 			// $dados_email['inicio_inscricao'] = $request->inicio_inscricao;
 			// $dados_email['fim_inscricao'] = $request->fim_inscricao;
