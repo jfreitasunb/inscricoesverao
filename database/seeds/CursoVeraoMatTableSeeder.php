@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class AreaPosMatTableSeeder extends Seeder
+class CursoVeraoMatTableSeeder extends Seeder
 {
 
     /**
@@ -14,12 +14,12 @@ class AreaPosMatTableSeeder extends Seeder
     {
         
 
-        \DB::table('area_pos_mat')->delete();
+        \DB::table('curso_verao_mat')->delete();
         
-        \DB::table('area_pos_mat')->insert(array (
+        \DB::table('curso_verao_mat')->insert(array (
             0 => 
             array (
-                'id_area_pos' => 1,
+                'id_curso_verao' => 1,
                 'nome_ptbr' => 'Álgebra',
                 'nome_en' => 'Algebra',
                 'nome_es' => 'Álgebra',
@@ -28,7 +28,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id_area_pos' => 2,
+                'id_curso_verao' => 2,
                 'nome_ptbr' => 'Análise',
                 'nome_en' => 'Analysis',
                 'nome_es' => 'Análisis',
@@ -37,7 +37,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id_area_pos' => 3,
+                'id_curso_verao' => 3,
                 'nome_ptbr' => 'Análise Numérica',
                 'nome_en' => 'Numerical Analysis',
                 'nome_es' => 'Análisis Numérico',
@@ -46,7 +46,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id_area_pos' => 4,
+                'id_curso_verao' => 4,
                 'nome_ptbr' => 'Dinâmica de Fluidos',
                 'nome_en' => 'Fluid Dynamics',
                 'nome_es' => 'Dinamica de Fluidos',
@@ -55,7 +55,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             4 => 
             array (
-                'id_area_pos' => 5,
+                'id_curso_verao' => 5,
                 'nome_ptbr' => 'Geometria',
                 'nome_en' => 'Geometry',
                 'nome_es' => 'Geometría',
@@ -64,7 +64,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             5 => 
             array (
-                'id_area_pos' => 6,
+                'id_curso_verao' => 6,
                 'nome_ptbr' => 'Probabilidade',
                 'nome_en' => 'Probability',
                 'nome_es' => 'Probabilidad ',
@@ -73,7 +73,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             6 => 
             array (
-                'id_area_pos' => 7,
+                'id_curso_verao' => 7,
                 'nome_ptbr' => 'Sistemas Dinâmicos',
                 'nome_en' => 'Dynamical Systems',
                 'nome_es' => 'Sistemas Dinámicos',
@@ -82,7 +82,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             7 => 
             array (
-                'id_area_pos' => 8,
+                'id_curso_verao' => 8,
                 'nome_ptbr' => 'Teoria da Computação',
                 'nome_en' => 'Theory of Computation',
                 'nome_es' => 'Teoría de la Computación',
@@ -91,7 +91,7 @@ class AreaPosMatTableSeeder extends Seeder
             ),
             8 => 
             array (
-                'id_area_pos' => 9,
+                'id_curso_verao' => 9,
                 'nome_ptbr' => 'Teoria dos Números',
                 'nome_en' => 'Number Theory',
                 'nome_es' => 'Teoría de los Números',
@@ -100,11 +100,11 @@ class AreaPosMatTableSeeder extends Seeder
             ),
         ));
 
-        $tableToCheck = 'area_pos_mat';
+        $tableToCheck = 'curso_verao_mat';
 
-        $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id_area_pos)'))->first();
-        $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\''.$tableToCheck.'_id_area_pos_seq\')'))->first();
+        $highestId = DB::table($tableToCheck)->select(DB::raw('MAX(id_curso_verao)'))->first();
+        $nextId = DB::table($tableToCheck)->select(DB::raw('nextval(\''.$tableToCheck.'_id_curso_verao_seq\')'))->first();
 
-        DB::select('SELECT setval(\''.$tableToCheck.'_id_area_pos_seq\', '.$highestId->max.')');   
+        DB::select('SELECT setval(\''.$tableToCheck.'_id_curso_verao_seq\', '.$highestId->max.')');   
     }
 }

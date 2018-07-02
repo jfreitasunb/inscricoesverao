@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class AreaPosMat extends Model
+class CursoVeraoMat extends Model
 {
     
 
@@ -17,9 +17,9 @@ class AreaPosMat extends Model
      * @var array
      */
     
-    protected $primaryKey = 'id_area_pos';
+    protected $primaryKey = 'id_curso_verao';
 
-    protected $table = 'area_pos_mat';
+    protected $table = 'curso_verao_mat';
 
     protected $fillable = [
         'nome_ptbr',
@@ -52,7 +52,7 @@ class AreaPosMat extends Model
             return null;
         }else{
             return $this->select($nome_coluna)
-            ->where('id_area_pos', $area_pos)->where('id_area_pos', '!=', 10)
+            ->where('id_curso_verao', $area_pos)->where('id_curso_verao', '!=', 10)
             ->value($nome_coluna);
         }   
     }
