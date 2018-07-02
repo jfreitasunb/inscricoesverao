@@ -46,15 +46,28 @@
           @endforeach
 
         <legend>Escolher os cursos do Verão:</legend>
-          @foreach($cursos_verao_mat as $curso)
-            <div class="col-xs-6">
-              <div class="form-group form-inline">
-                <label>
-                  {!! Form::checkbox('escolhas_coordenador[]', $curso->id_curso_verao, null) !!} {{ $curso->nome_ptbr }} 
-                </label> 
-              </div>
-            </div>
-          @endforeach
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Curso</th>
+                  <th>Seleciona para Pós?</th>
+                </tr>
+              </thead>
+            <tbody>
+              @foreach($cursos_verao_mat as $curso)
+                <tr>
+                  <td>{!! Form::checkbox('curso_verao[]', $curso->id_curso_verao, null) !!} </td>
+                  <td>{{ $curso->nome_ptbr }}</td>
+                  <td><label class="radio-inline">{{ Form::radio('seleciona_pos['.$curso->id_curso_verao.']', 0, True) }}Não</label>
+                  <label class="radio-inline">{{ Form::radio('seleciona_pos['.$curso->id_curso_verao.']', 1, False) }}Sim</label>
+                  </td>
+                  </tr>
+              @endforeach
+            </tbody>
+    </table>
+  </div>
 
         @if ($errors->has('edital'))
           <span class="help-block">{{ $errors->first('edital') }}</span>
