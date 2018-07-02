@@ -48,9 +48,6 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 		$this->validate($request, [
 			'inicio_inscricao' => 'required|date_format:"d/m/Y"|before:fim_inscricao|after:today',
 			'fim_inscricao' => 'required|date_format:"d/m/Y"|after:inicio_inscricao|after:today',
-			'prazo_carta' => 'required|date_format:"d/m/Y"|after:inicio_inscricao|after:today',
-			'edital_ano' => 'required',
-			'edital_numero' => 'required',
 			'escolhas_coordenador' => 'required',
 		]);
 
@@ -58,11 +55,6 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 		$configura_nova_inscricao_pos = new ConfiguraInscricaoPos();
 
 		$user = Auth::user();
-
-		$local_documentos = storage_path('app/');
-        $arquivos_editais = storage_path("app/public/editais/");
-
-        File::isDirectory($arquivos_editais) or File::makeDirectory($arquivos_editais,0775,true);
     
     	$inicio = Carbon::createFromFormat('d/m/Y', $request->inicio_inscricao);
     	$fim = Carbon::createFromFormat('d/m/Y', $request->fim_inscricao);
