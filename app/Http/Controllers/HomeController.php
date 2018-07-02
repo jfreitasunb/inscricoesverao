@@ -1,10 +1,10 @@
 <?php
 
-namespace Posmat\Http\Controllers;
+namespace Veraomat\Http\Controllers;
 
 use Auth;
 use Session;
-use Posmat\Models\User;
+use Veraomat\Models\User;
 
 
 /**

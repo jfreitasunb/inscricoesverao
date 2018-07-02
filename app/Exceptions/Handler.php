@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Exceptions;
+namespace Veraomat\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;

@@ -1,7 +1,7 @@
 <?php
 
-namespace Posmat\Mail;
-use Posmat\Models\User;
+namespace Veraomat\Mail;
+use Veraomat\Models\User;
 
 
 use Illuminate\Bus\Queueable;

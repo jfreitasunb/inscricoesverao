@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Http\Controllers\Coordenador;
+namespace Veraomat\Http\Controllers\Coordenador;
 
 use Auth;
 use DB;
@@ -10,20 +10,20 @@ use File;
 use PDF;
 use Notification;
 use Carbon\Carbon;
-use Posmat\Models\User;
-use Posmat\Models\ConfiguraInscricaoPos;
-use Posmat\Models\AreaPosMat;
-use Posmat\Models\CartaRecomendacao;
-use Posmat\Models\Formacao;
-use Posmat\Models\ProgramaPos;
-use Posmat\Models\FinalizaInscricao;
-use Posmat\Notifications\NotificaNovaInscricao;
+use Veraomat\Models\User;
+use Veraomat\Models\ConfiguraInscricaoPos;
+use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\CartaRecomendacao;
+use Veraomat\Models\Formacao;
+use Veraomat\Models\ProgramaPos;
+use Veraomat\Models\FinalizaInscricao;
+use Veraomat\Notifications\NotificaNovaInscricao;
 use Illuminate\Http\Request;
-use Posmat\Mail\EmailVerification;
-use Posmat\Http\Controllers\BaseController;
-use Posmat\Http\Controllers\CidadeController;
-use Posmat\Http\Controllers\AuthController;
-use Posmat\Http\Controllers\RelatorioController;
+use Veraomat\Mail\EmailVerification;
+use Veraomat\Http\Controllers\BaseController;
+use Veraomat\Http\Controllers\CidadeController;
+use Veraomat\Http\Controllers\AuthController;
+use Veraomat\Http\Controllers\RelatorioController;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use UrlSigner;
 use URL;

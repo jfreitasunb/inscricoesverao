@@ -1,8 +1,8 @@
 <?php
 
-namespace Posmat\Http\Controllers;
+namespace Veraomat\Http\Controllers;
 
-use Posmat\Models\{ConfiguraInscricaoPos, User};
+use Veraomat\Models\{ConfiguraInscricaoPos, User};
 use Auth;
 use Session;
 

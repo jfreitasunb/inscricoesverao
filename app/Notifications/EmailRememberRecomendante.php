@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Notifications;
+namespace Veraomat\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

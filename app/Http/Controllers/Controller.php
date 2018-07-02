@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Http\Controllers;
+namespace Veraomat\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

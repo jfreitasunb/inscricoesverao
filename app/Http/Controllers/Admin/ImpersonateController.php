@@ -1,11 +1,11 @@
 <?php
 
-namespace Posmat\Http\Controllers\Admin;
+namespace Veraomat\Http\Controllers\Admin;
 
 use Auth;
 use Illuminate\Http\Request;
-use Posmat\Http\Controllers\Controller;
-use Posmat\Models\User;
+use Veraomat\Http\Controllers\Controller;
+use Veraomat\Models\User;
 
 class ImpersonateController extends Controller
 {   

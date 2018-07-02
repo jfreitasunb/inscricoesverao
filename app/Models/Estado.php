@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Models;
+namespace Veraomat\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class Estado extends Model
 
     public function cidades()
     {
-        return $this->hasMany('Posmat\Models\Cidade');
+        return $this->hasMany('Veraomat\Models\Cidade');
     }
 
     public function retorna_nome_estados_por_id($id_pais, $id_estado)

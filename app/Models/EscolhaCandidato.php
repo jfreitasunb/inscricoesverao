@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Models;
+namespace Veraomat\Models;
 
 use DB;
 use Carbon\Carbon;

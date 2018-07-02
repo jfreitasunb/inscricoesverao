@@ -1,12 +1,12 @@
 <?php
 
-namespace Posmat\Console\Commands;
+namespace Veraomat\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Notification;
-use Posmat\Models\{User, ConfiguraInscricaoPos, DadoRecomendante, CartaRecomendacao};
-use Posmat\Notifications\EmailRememberRecomendante;
+use Veraomat\Models\{User, ConfiguraInscricaoPos, DadoRecomendante, CartaRecomendacao};
+use Veraomat\Notifications\EmailRememberRecomendante;
 
 use Illuminate\Console\Command;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Posmat\Models;
+namespace Veraomat\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Posmat\Notifications\ResetPassword as ResetPasswordNotification;
+use Veraomat\Notifications\ResetPassword as ResetPasswordNotification;
 use Notification;
-use Posmat\Notifications\LinkSenha;
+use Veraomat\Notifications\LinkSenha;
 
 class User extends Authenticatable
 {

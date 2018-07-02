@@ -1,9 +1,9 @@
 <?php
 
-namespace Posmat\Providers;
+namespace Veraomat\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Posmat\Models\ConfiguraInscricaoPos;
+use Veraomat\Models\ConfiguraInscricaoPos;
 
 
 class ViewComposerServiceProvider extends ServiceProvider

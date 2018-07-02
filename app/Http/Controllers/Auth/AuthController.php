@@ -1,24 +1,24 @@
 <?php
 
-namespace Posmat\Http\Controllers\Auth;
+namespace Veraomat\Http\Controllers\Auth;
 
 use Auth;
 use DB;
 use Mail;
 use Session;
 use Purifier;
-use Posmat\Models\User;
-use Posmat\Models\Monitoria;
-use Posmat\Models\DadoPessoal;
+use Veraomat\Models\User;
+use Veraomat\Models\Monitoria;
+use Veraomat\Models\DadoPessoal;
 use Illuminate\Http\Request;
-use Posmat\Mail\EmailVerification;
-use Posmat\Http\Controllers\Controller;
-use Posmat\Http\Controllers\BaseController;
-use Posmat\Http\Controllers\HomeController;
+use Veraomat\Mail\EmailVerification;
+use Veraomat\Http\Controllers\Controller;
+use Veraomat\Http\Controllers\BaseController;
+use Veraomat\Http\Controllers\HomeController;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Posmat\Notifications\AtivaConta;
+use Veraomat\Notifications\AtivaConta;
 
 
 

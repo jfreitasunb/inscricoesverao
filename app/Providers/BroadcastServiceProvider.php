@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Providers;
+namespace Veraomat\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Posmat\Providers;
+namespace Veraomat\Providers;
 
-use Posmat\Models\ConfiguraInscricaoPos;
-use Posmat\Models\FinalizaInscricao;
+use Veraomat\Models\ConfiguraInscricaoPos;
+use Veraomat\Models\FinalizaInscricao;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;

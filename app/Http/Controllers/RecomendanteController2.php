@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Http\Controllers;
+namespace Veraomat\Http\Controllers;
 
 use Auth;
 use DB;
@@ -12,30 +12,30 @@ use Validator;
 use Purifier;
 use Notification;
 use Carbon\Carbon;
-use Posmat\Models\User;
-use Posmat\Models\ConfiguraInscricaoPos;
-use Posmat\Models\AreaPosMat;
-use Posmat\Models\CartaMotivacao;
-use Posmat\Models\ProgramaPos;
-use Posmat\Models\DadoPessoal;
-use Posmat\Models\Formacao;
-use Posmat\Models\Estado;
-use Posmat\Models\DadoAcademico;
-use Posmat\Models\EscolhaCandidato;
-use Posmat\Models\DadoRecomendante;
-use Posmat\Models\ContatoRecomendante;
-use Posmat\Models\CartaRecomendacao;
-use Posmat\Models\FinalizaInscricao;
-use Posmat\Models\Documento;
-use Posmat\Notifications\NotificaRecomendante;
+use Veraomat\Models\User;
+use Veraomat\Models\ConfiguraInscricaoPos;
+use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\CartaMotivacao;
+use Veraomat\Models\ProgramaPos;
+use Veraomat\Models\DadoPessoal;
+use Veraomat\Models\Formacao;
+use Veraomat\Models\Estado;
+use Veraomat\Models\DadoAcademico;
+use Veraomat\Models\EscolhaCandidato;
+use Veraomat\Models\DadoRecomendante;
+use Veraomat\Models\ContatoRecomendante;
+use Veraomat\Models\CartaRecomendacao;
+use Veraomat\Models\FinalizaInscricao;
+use Veraomat\Models\Documento;
+use Veraomat\Notifications\NotificaRecomendante;
 use Illuminate\Http\Request;
-use Posmat\Mail\EmailVerification;
-use Posmat\Http\Controllers\Controller;
-use Posmat\Http\Controllers\AuthController;
-use Posmat\Http\Controllers\CidadeController;
-use Posmat\Http\Controllers\APIController;
+use Veraomat\Mail\EmailVerification;
+use Veraomat\Http\Controllers\Controller;
+use Veraomat\Http\Controllers\AuthController;
+use Veraomat\Http\Controllers\CidadeController;
+use Veraomat\Http\Controllers\APIController;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Posmat\Http\Requests;
+use Veraomat\Http\Requests;
 use Illuminate\Support\Facades\Response;
 
 /**

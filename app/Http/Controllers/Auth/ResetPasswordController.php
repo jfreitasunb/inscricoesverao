@@ -1,8 +1,8 @@
 <?php
 
-namespace Posmat\Http\Controllers\Auth;
+namespace Veraomat\Http\Controllers\Auth;
 
-use Posmat\Http\Controllers\Controller;
+use Veraomat\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller

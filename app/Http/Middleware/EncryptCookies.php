@@ -1,6 +1,6 @@
 <?php
 
-namespace Posmat\Http\Middleware;
+namespace Veraomat\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
