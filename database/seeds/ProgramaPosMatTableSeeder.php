@@ -20,20 +20,20 @@ class ProgramaPosMatTableSeeder extends Seeder
             0 => 
             array (
                 'id_programa_pos' => 1,
-                'tipo_programa_pos_ptbr' => 'Mestrado',
-                'tipo_programa_pos_en' => 'Master\'s degree',
-                'tipo_programa_pos_es' => 'Maestría',
-                'created_at' => '2017-11-21 15:27:00',
-                'updated_at' => '2017-11-21 15:27:00',
+                'tipo_programa_pos_ptbr' => 'Workshop',
+                'tipo_programa_pos_en' => 'Workshop',
+                'tipo_programa_pos_es' => 'Workshop',
+                'created_at' => '2018-07-02 14:32:00',
+                'updated_at' => '2017-07-02 14:32:00',
             ),
             1 => 
             array (
                 'id_programa_pos' => 2,
-                'tipo_programa_pos_ptbr' => 'Doutorado',
-                'tipo_programa_pos_en' => 'PhD degree',
-                'tipo_programa_pos_es' => 'Doctorado',
-                'created_at' => '2017-11-21 15:27:00',
-                'updated_at' => '2017-11-21 15:27:00',
+                'tipo_programa_pos_ptbr' => 'Verão',
+                'tipo_programa_pos_en' => 'Summer course',
+                'tipo_programa_pos_es' => 'Curso de verano',
+                'created_at' => '2017-07-02 14:32:00',
+                'updated_at' => '2017-07-02 14:32:00',
             ),
             // 2 => 
             // array (

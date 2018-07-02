@@ -45,7 +45,10 @@
             </div>
           @endforeach
 
-        <legend></legend>
+        @if ($errors->has('edital'))
+          <span class="help-block">{{ $errors->first('edital') }}</span>
+        @endif
+        
         <div class="col-md-10 text-center"> 
           {!! Form::submit('Salvar', array('class' => 'register-submit btn btn-primary btn-lg', 'id' => 'register-submit', 'tabindex' => '4')) !!}
         </div>
