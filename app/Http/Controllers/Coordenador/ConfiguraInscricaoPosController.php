@@ -46,15 +46,22 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
 	public function postConfiguraInscricaoPos(Request $request)
 	{
-
 		$this->validate($request, [
 			'inicio_inscricao' => 'required|date_format:"d/m/Y"|before:fim_inscricao|after:today',
 			'fim_inscricao' => 'required|date_format:"d/m/Y"|after:inicio_inscricao|after:today',
 			'escolhas_coordenador' => 'required',
 		]);
 
+        $escolhas_coordenador = $request->escolhas_coordenador;
 
-		$configura_nova_inscricao_pos = new ConfiguraInscricaoPos();
+        if (is_null($request->curso_verao) and (in_array(2, $escolhas_coordenador))) {
+                    
+            notify()->flash(trans('Você deve selecionar as disciplinas do Verão.'),'warning');
+
+            return redirect()->back();
+        }
+		
+        $configura_nova_inscricao_pos = new ConfiguraInscricaoPos();
 
 		$user = Auth::user();
     
