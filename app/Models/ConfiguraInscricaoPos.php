@@ -17,9 +17,9 @@ class ConfiguraInscricaoPos extends Model
      * @var array
      */
     
-    protected $primaryKey = 'id_inscricao_pos';
+    protected $primaryKey = 'id_inscricao_verao';
 
-    protected $table = 'configura_inscricao_pos';
+    protected $table = 'configura_inscricao_verao';
 
     protected $fillable = [ 
         'inicio_inscricao', 
@@ -33,20 +33,20 @@ class ConfiguraInscricaoPos extends Model
     public function retorna_lista_para_relatorio()
     {
 
-        return $this->orderBy('id_inscricao_pos','desc')->paginate(5);
+        return $this->orderBy('id_inscricao_verao','desc')->paginate(5);
     }
 
      public function retorna_edital_vigente()
     {
 
-        return $this->orderBy('id_inscricao_pos','desc')->get()->first();
+        return $this->orderBy('id_inscricao_verao','desc')->get()->first();
 
     }
 
     public function retorna_inscricao_ativa()
     {
 
-        return $this->get()->sortByDesc('id_inscricao_pos')->first();
+        return $this->get()->sortByDesc('id_inscricao_verao')->first();
 
     }
 
