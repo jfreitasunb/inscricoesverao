@@ -19,7 +19,7 @@ class CreateArquivosEnviadosTable extends Migration
             $table->foreign('id_candidato')->references('id_user')->on('users')->onDelete('cascade');
             $table->string('nome_arquivo',255);
             $table->string('tipo_arquivo',10);
-            $table->unsignedInteger('id_inscricao_pos');
+            $table->unsignedInteger('id_inscricao_verao');
             $table->foreign('id_inscricao_verao')->references('id_inscricao_verao')->on('configura_inscricao_verao')->onDelete('cascade');
             $table->timestamps();
         });
