@@ -12,7 +12,7 @@ use Notification;
 use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
-use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\CursoVeraoMat;
 use Veraomat\Models\CartaRecomendacao;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\ProgramaPos;
@@ -39,7 +39,9 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
 		$programas_pos_mat = ProgramaPos::get()->all();
 
-		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('programas_pos_mat'));
+        $cursos_verao_mat = CursoVeraoMat::get()->all();
+
+		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('programas_pos_mat, curso_verao_mat'));
 	}
 
 	public function postConfiguraInscricaoPos(Request $request)
