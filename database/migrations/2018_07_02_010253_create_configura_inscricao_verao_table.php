@@ -17,7 +17,7 @@ class CreateConfiguraInscricaoVeraoTable extends Migration
             $table->increments('id_inscricao_verao');
             $table->date('inicio_inscricao');
             $table->date('fim_inscricao');
-            $table->string('tipo_evendo', 7);
+            $table->string('tipo_evento', 7);
             $table->unsignedInteger('id_coordenador');
             $table->foreign('id_coordenador')->references('id_user')->on('users')->onDelete('cascade');
             $table->timestamps();
