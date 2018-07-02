@@ -12,7 +12,7 @@
     <div class="col-md-8 col-md-offset-2">
       {!! Form::open(array('route' => 'configura.inscricao','data-parsley-validate' => '' ,'enctype' => 'multipart/form-data')) !!}
         <legend>Configurar período da abertura da inscrição</legend>
-        <div class="col-xs-4">
+        <div class="col-xs-6">
           <div class="form-group form-inline">
             {!! Form::label('inicio_inscricao', 'Início da Inscrição:') !!}
             <div class='input-group' id='inicio_inscricao'>
@@ -23,22 +23,11 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-6">
           <div class="form-group form-inline">
             {!! Form::label('fim_inscricao', 'Final da Inscrição:') !!}
             <div class='input-group' id='fim_inscricao'>
               {!! Form::text('fim_inscricao', null, ['class' => 'form-control', 'required' => '']) !!}
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-4">
-          <div class="form-group form-inline">
-            {!! Form::label('prazo_carta', 'Prazo para envio da carta:') !!}
-            <div class='input-group' id='prazo_carta'>
-              {!! Form::text('prazo_carta', null, ['class' => 'form-control', 'required' => '']) !!}
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -55,30 +44,7 @@
               </div>
             </div>
           @endforeach
-        
-        <legend>Edital</legend>
-        <div class="col-xs-6">
-          
-          {!! Form::label('edital_ano', 'Ano', ['class' => 'form-group form-inline']) !!}
-          {!! Form::text('edital_ano', null, ['class' => 'form-group', 'required' => '']) !!}
-        </div>
-        <div class="col-xs-6">
-          {!! Form::label('edital_numero', 'Número', ['class' => 'form-group form-inline']) !!}
-          {!! Form::text('edital_numero', null, ['class' => 'form-group', 'required' => '', 'data-parsley-type' => 'integer']) !!}
-        </div>
 
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-primary" style="display:none;">
-            <span class="glyphicon glyphicon-remove"></span> Clear
-          </button>
-          <div class="register-submit btn btn-primary">
-            <input type="file" accept="application/pdf" name="edital" required=""/> <!-- rename it -->
-          </div>
-        </span>
-        @if ($errors->has('edital'))
-          <span class="help-block">{{ $errors->first('edital') }}</span>
-        @endif
-        
         <legend></legend>
         <div class="col-md-10 text-center"> 
           {!! Form::submit('Salvar', array('class' => 'register-submit btn btn-primary btn-lg', 'id' => 'register-submit', 'tabindex' => '4')) !!}
