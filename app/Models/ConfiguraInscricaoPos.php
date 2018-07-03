@@ -25,6 +25,7 @@ class ConfiguraInscricaoPos extends Model
         'inicio_inscricao', 
         'fim_inscricao',
         'tipo_evento',
+        'ano_evento',
         'id_coordenador',
     ];
 
