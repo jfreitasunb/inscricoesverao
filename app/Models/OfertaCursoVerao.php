@@ -40,4 +40,12 @@ class OfertaCursoVerao extends Model
         return $this->where('id_inscricao_verao', $id_inscricao_verao)->join('curso_verao_mat','curso_verao_mat.id_curso_verao', 'oferta_curso_verao.id_curso_verao')->select('oferta_curso_verao.id_curso_verao', 'curso_verao_mat.'.$nome_coluna, 'oferta_curso_verao.seleciona_pos')->get();
     }
 
+    public function retorna_seleciona_pos($id_inscricao_verao, $id_curso_verao)
+    {
+        return $this->select('seleciona_pos')
+            ->where('id_inscricao_verao', $id_inscricao_verao)
+            ->where('id_curso_verao', $id_curso_verao)
+            ->value('seleciona_pos');
+    }
+
 }
