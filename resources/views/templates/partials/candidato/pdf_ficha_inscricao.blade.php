@@ -98,8 +98,12 @@
         <div>
             <label>{{ trans('tela_escolha_candidato.programa_disponivel') }}: </label>{{ $dados_candidato_para_relatorio['programa_pretendido'] }}
         </div>
-        <div>
-            <label> {!! $dados_candidato_para_relatorio['curso_verao'] ? 'Cursos: </label>'.str_replace("_", "<br> ", $dados_candidato_para_relatorio['curso_verao']): '' !!}</label>
-        </div>
+        @if ($dados_candidato_para_relatorio['curso_verao'])
+            <div>
+                <label> {{ trans('tela_escolha_candidato.curso_verao') }} </label>
+                <ul>{!! str_replace("_", "<br>", $dados_candidato_para_relatorio['curso_verao']) !!}</ul>
+            </div>
+        @endif
+        
     </body>
 </html>
