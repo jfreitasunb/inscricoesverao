@@ -167,17 +167,16 @@ class FinalizarInscricaoController extends BaseController
 
 			$dados_pessoais_candidato = User::find($id_candidato);
 
-			$escolha_candidato = new EscolhaCandidato();
+			$escolha_candidato = new EscolhaCursoVerao();
 
-			$programa_pretendido = $escolha_candidato->retorna_escolha_candidato($id_candidato,$id_inscricao_verao)->programa_pretendido;
+			$programa_pretendido = $escolha_candidato->retorna_escolha_programa($id_candidato,$id_inscricao_verao)->programa_pretendido;
+			
 			$programa_pos = new ProgramaPos();
 
 			$nome_programa_pos_candidato = $programa_pos->pega_programa_pos_mat($programa_pretendido, $locale_fixo);
 
 			$dados_email_candidato['nome_candidato'] = $dados_pessoais_candidato->nome;
 			$dados_email_candidato['programa'] = $nome_programa_pos_candidato;
-
-			
 
 			$dados_email_candidato['ficha_inscricao'] = $request->ficha_inscricao;
 			

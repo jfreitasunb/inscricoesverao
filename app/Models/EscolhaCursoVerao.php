@@ -24,6 +24,11 @@ class EscolhaCursoVerao extends Model
         return $this->where("id_candidato", $id_candidato)->where("id_inscricao_verao", $id_inscricao_verao)->get();
     }
 
+    public function retorna_escolha_programa($id_candidato,$id_inscricao_verao)
+    {
+        return $this->where("id_candidato", $id_candidato)->where("id_inscricao_verao", $id_inscricao_verao)->get()->first();
+    }
+
     public function usuarios_nao_finalizados($id_inscricao_verao)
     {
         return $this->where('id_inscricao_verao', $id_inscricao_verao)->join('users', 'users.id_user', 'escolhas_curso_verao.id_candidato')->join('programa_pos_mat', 'programa_pos_mat.id_programa_pos', 'escolhas_curso_verao.programa_pretendido')->whereNotIn('escolhas_curso_verao.id_candidato', function($query) use ($id_inscricao_verao) {
