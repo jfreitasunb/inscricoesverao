@@ -104,15 +104,13 @@ class FinalizarInscricaoController extends BaseController
 			$informou_escolha = new EscolhaCursoVerao();
 
 			$escolheu = $informou_escolha->retorna_escolha_candidato($id_candidato,$id_inscricao_verao);
-			dd($escolheu);
+			
 			if (is_null($escolheu)) {
 				
 				notify()->flash(trans('tela_finalizar_inscricao.falta_escolha'),'warning');
 
 				return redirect()->route('dados.escolhas');
 			}
-
-			dd("aqui");
 			
 			$novo_relatorio = new RelatorioController;
 
