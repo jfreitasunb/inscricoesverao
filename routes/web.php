@@ -170,13 +170,13 @@ Route::prefix('coordenador')->middleware('user.role:coordenador,admin')->group(f
 
 	Route::post('configura/inscricao', '\Veraomat\Http\Controllers\Coordenador\ConfiguraInscricaoPosController@postConfiguraInscricaoPos');
 
-	Route::get('cadastra/area/pos', '\Veraomat\Http\Controllers\Coordenador\CadastraAreaPosController@getCadastraAreaPos')->name('cadastra.area.pos');
+	Route::get('cadastra/area/pos', '\Veraomat\Http\Controllers\Coordenador\CadastraCursoVeraoController@getCadastraAreaPos')->name('cadastra.area.pos');
 
-	Route::post('cadastra/area/pos', '\Veraomat\Http\Controllers\Coordenador\CadastraAreaPosController@postCadastraAreaPos');
+	Route::post('cadastra/area/pos', '\Veraomat\Http\Controllers\Coordenador\CadastraCursoVeraoController@postCadastraAreaPos');
 
-	Route::get('editar/area/pos', '\Veraomat\Http\Controllers\Coordenador\EditarAreaPosController@getEditarAreaPos')->name('editar.area.pos');
+	Route::get('editar/area/pos', '\Veraomat\Http\Controllers\Coordenador\EditarCursoVeraoController@getEditarAreaPos')->name('editar.area.pos');
 
-	Route::post('editar/area/pos', '\Veraomat\Http\Controllers\Coordenador\EditarAreaPosController@postEditarAreaPos');
+	Route::post('editar/area/pos', '\Veraomat\Http\Controllers\Coordenador\EditarCursoVeraoController@postEditarAreaPos');
 
 	Route::get('editar/formacao', '\Veraomat\Http\Controllers\Coordenador\EditarFormacaoController@getEditarFormacao')->name('editar.formacao');
 
