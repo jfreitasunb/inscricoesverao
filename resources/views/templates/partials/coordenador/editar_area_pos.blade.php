@@ -9,7 +9,7 @@
 @section('edita_area_pos')
 
 <fieldset class="scheduler-border">
-  <legend class="scheduler-border">Áreas da Pós-Graduação</legend>
+  <legend class="scheduler-border">Cursos ofertados anteriormente</legend>
 
   
   <div class="table-responsive">

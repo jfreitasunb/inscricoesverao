@@ -9,7 +9,7 @@
 @section('cadastra_area_pos')
 
 <fieldset class="scheduler-border">
-  <legend class="scheduler-border">Cadastrar nova área da Pós-Graduação</legend>
+  <legend class="scheduler-border">Cadastrar novo curso de Verão</legend>
   {!! Form::open(array('route' => 'cadastra.area.pos', 'class' => 'form-horizontal', 'data-parsley-validate' => '' )) !!}
     <div class="row">
       {!! Form::label('nome_ptbr', 'Nome em Português', ['class' => 'col-md-4 control-label'])!!}
