@@ -195,78 +195,73 @@ class EscolhaCandidatoController extends BaseController
 			}
 
 			$programas_disponiveis = explode("_", $edital_ativo->retorna_inscricao_ativa()->programa);
+	
+			$this->validate($request, [
+				'programa_pretendido' => 'required',
+				'interesse_bolsa' => 'required',
+				'vinculo_empregaticio' => 'required',
+				'nome_recomendante' => 'required',
+				'email_recomendante' => 'required|tres_recomendantes',
+				'confirmar_email_recomendante' => 'required|same:email_recomendante',
+			]);
 
-			if (!in_array(3, $programas_disponiveis)) {
+			if (is_null($request->area_pos) and ($request->programa_pretendido === '2')) {
 				
-				
-				$this->validate($request, [
-					'programa_pretendido' => 'required',
-					'interesse_bolsa' => 'required',
-					'vinculo_empregaticio' => 'required',
-					'nome_recomendante' => 'required',
-					'email_recomendante' => 'required|tres_recomendantes',
-					'confirmar_email_recomendante' => 'required|same:email_recomendante',
-				]);
+				notify()->flash(trans('mensagens_gerais.informe_area'),'warning');
 
-				if (is_null($request->area_pos) and ($request->programa_pretendido === '2')) {
-					
-					notify()->flash(trans('mensagens_gerais.informe_area'),'warning');
-
-					return redirect()->back();
-				}
-
-
-				
-				$escolhas_candidato = new EscolhaCandidato();
-
-				$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request);
-
-				$email_contatos_recomendantes = [];
-
-				for ($i=0; $i < count($request->email_recomendante); $i++) { 
-					
-					$email_contatos_recomendantes[$i] = Purifier::clean(strtolower(trim($request->email_recomendante[$i])));
-
-					$associa_email = new AssociaEmailsRecomendante;
-
-					$existe_associacao = $associa_email->retorna_associacao($email_contatos_recomendantes[$i]);
-
-					if (!is_null($existe_associacao)) {
-						$email_contatos_recomendantes[$i] = $existe_associacao;
-					}
-				}
-
-
-				$novo_usuario = new User();
-				$array_erro = [];
-
-				for ($i=0; $i < count($email_contatos_recomendantes); $i++) {
-
-					$novo_recomendante['nome'] = Purifier::clean($request->nome_recomendante[$i]);
-					
-					$novo_recomendante['email'] = $email_contatos_recomendantes[$i];
-
-					$novo_usuario_recomendante = $novo_usuario->registra_recomendante($novo_recomendante);
-
-					if ($novo_usuario_recomendante) {
-						$array_erro[$i] = $email_contatos_recomendantes[$i];
-					}
-				}
-
-				if (!empty($array_erro)) {
-					notify()->flash(trans('mensagens_gerais.inicio_erro_email_recomendantes').implode(", ", $array_erro).trans('mensagens_gerais.final_erro_email_recomendantes'),'warning');
-					return redirect()->back();
-				}
-
-				$contatos_recomendantes = new ContatoRecomendante();
-
-				$candidato_recomendantes = $contatos_recomendantes->processa_indicacoes($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
-
-				$carta_recomendacao = new CartaRecomendacao();
-
-				$inicia_carta = $carta_recomendacao->inicia_carta_candidato($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
-
+				return redirect()->back();
 			}
+
+
+			
+			$escolhas_candidato = new EscolhaCandidato();
+
+			$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request);
+
+			$email_contatos_recomendantes = [];
+
+			for ($i=0; $i < count($request->email_recomendante); $i++) { 
+				
+				$email_contatos_recomendantes[$i] = Purifier::clean(strtolower(trim($request->email_recomendante[$i])));
+
+				$associa_email = new AssociaEmailsRecomendante;
+
+				$existe_associacao = $associa_email->retorna_associacao($email_contatos_recomendantes[$i]);
+
+				if (!is_null($existe_associacao)) {
+					$email_contatos_recomendantes[$i] = $existe_associacao;
+				}
+			}
+
+
+			$novo_usuario = new User();
+			$array_erro = [];
+
+			for ($i=0; $i < count($email_contatos_recomendantes); $i++) {
+
+				$novo_recomendante['nome'] = Purifier::clean($request->nome_recomendante[$i]);
+				
+				$novo_recomendante['email'] = $email_contatos_recomendantes[$i];
+
+				$novo_usuario_recomendante = $novo_usuario->registra_recomendante($novo_recomendante);
+
+				if ($novo_usuario_recomendante) {
+					$array_erro[$i] = $email_contatos_recomendantes[$i];
+				}
+			}
+
+			if (!empty($array_erro)) {
+				notify()->flash(trans('mensagens_gerais.inicio_erro_email_recomendantes').implode(", ", $array_erro).trans('mensagens_gerais.final_erro_email_recomendantes'),'warning');
+				return redirect()->back();
+			}
+
+			$contatos_recomendantes = new ContatoRecomendante();
+
+			$candidato_recomendantes = $contatos_recomendantes->processa_indicacoes($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
+
+			$carta_recomendacao = new CartaRecomendacao();
+
+			$inicia_carta = $carta_recomendacao->inicia_carta_candidato($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
 			
 			notify()->flash(trans('mensagens_gerais.mensagem_sucesso'),'success');
 			
