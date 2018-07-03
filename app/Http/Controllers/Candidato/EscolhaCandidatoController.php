@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\AssociaEmailsRecomendante;
 use Veraomat\Models\ConfiguraInscricaoPos;
-use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\OfertaCursoVerao;
 use Veraomat\Models\CartaMotivacao;
 use Veraomat\Models\ProgramaPos;
 use Veraomat\Models\DadoPessoalCandidato;
@@ -156,7 +156,9 @@ class EscolhaCandidatoController extends BaseController
 				 		break;
 				 }
 
-				$areas_pos = AreaPosMat::where('id_area_pos', '!=', 10)->pluck($nome_coluna,'id_area_pos')->prepend(trans('mensagens_gerais.selecionar'),'');
+				$areas_pos = new OfertaCursoVerao;
+
+				dd($areas_pos->retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato));
 			}
 			
 			return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','areas_pos','dados'));
