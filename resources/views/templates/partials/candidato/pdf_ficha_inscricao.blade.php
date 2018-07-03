@@ -96,7 +96,10 @@
         <hr>
         <h3>{{ trans('tela_escolha_candidato.tela_escolhas') }}</h3>
         <div>
-            <label>{{ trans('tela_escolha_candidato.programa_disponivel') }}: </label>{{ $dados_candidato_para_relatorio['programa_pretendido'] }} {!! $dados_candidato_para_relatorio['curso_verao'] ? '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label> Área: </label>'.$dados_candidato_para_relatorio['curso_verao']: '' !!}
+            <label>{{ trans('tela_escolha_candidato.programa_disponivel') }}: </label>{{ $dados_candidato_para_relatorio['programa_pretendido'] }}
+        </div>
+        <div>
+            <label> {!! $dados_candidato_para_relatorio['curso_verao'] ? 'Cursos: </label>'.str_replace("_", " ", $dados_candidato_para_relatorio['curso_verao']): '' !!}</label>
         </div>
     </body>
 </html>
