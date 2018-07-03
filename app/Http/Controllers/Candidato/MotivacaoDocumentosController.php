@@ -50,13 +50,14 @@ class MotivacaoDocumentosController extends BaseController
 
 	public function getMotivacaoDocumentos()
 	{
+
 		$user = $this->SetUser();
 		
 		$id_candidato = $user->id_user;
 
 		$edital_ativo = new ConfiguraInscricaoPos();
 
-		$id_inscricao_pos = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_pos;
+		$id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
 		$edital = $edital_ativo->retorna_inscricao_ativa()->edital;
 		$autoriza_inscricao = $edital_ativo->autoriza_inscricao();
 
@@ -66,7 +67,7 @@ class MotivacaoDocumentosController extends BaseController
 		
 			$finaliza_inscricao = new FinalizaInscricao();
 
-			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_candidato,$id_inscricao_pos);
+			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_candidato,$id_inscricao_verao);
 
 			if ($status_inscricao) {
 
@@ -77,7 +78,7 @@ class MotivacaoDocumentosController extends BaseController
 
 				$motivacao = new CartaMotivacao();
 
-				$fez_carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato,$id_inscricao_pos);
+				$fez_carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato,$id_inscricao_verao);
 
 				if (is_null($fez_carta_motivacao)) {
 					$dados['motivacao'] = '';
@@ -113,14 +114,14 @@ class MotivacaoDocumentosController extends BaseController
 
 			$edital_ativo = new ConfiguraInscricaoPos();
 
-			$id_inscricao_pos = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_pos;
+			$id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
 			
 			$doc_pessoais = $request->documentos_pessoais->store('uploads');
 			$arquivo = new Documento();
 			$arquivo->id_candidato = $id_candidato;
 			$arquivo->nome_arquivo = $doc_pessoais;
 			$arquivo->tipo_arquivo = "Documentos";
-			$arquivo->id_inscricao_pos = $id_inscricao_pos;
+			$arquivo->id_inscricao_verao = $id_inscricao_verao;
 			$arquivo->save();
 
 			$hist = $request->historico->store('uploads');
@@ -128,12 +129,12 @@ class MotivacaoDocumentosController extends BaseController
 			$arquivo->id_candidato = $id_candidato;
 			$arquivo->nome_arquivo = $hist;
 			$arquivo->tipo_arquivo = "Histórico";
-			$arquivo->id_inscricao_pos = $id_inscricao_pos;
+			$arquivo->id_inscricao_verao = $id_inscricao_verao;
 			$arquivo->save();
 
 			$motivacao = new CartaMotivacao();
 
-			$carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato, $id_inscricao_pos);
+			$carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato, $id_inscricao_verao);
 
 
 			if (is_null($carta_motivacao)) {
@@ -141,13 +142,13 @@ class MotivacaoDocumentosController extends BaseController
 				$nova_motivacao->id_candidato = $id_candidato;
 				$nova_motivacao->motivacao = Purifier::clean($request->input('motivacao'));
 				$nova_motivacao->concorda_termos = (bool)$request->input('concorda_termos');
-				$nova_motivacao->id_inscricao_pos = $id_inscricao_pos;
+				$nova_motivacao->id_inscricao_verao = $id_inscricao_verao;
 				$nova_motivacao->save();
 			}else{
 				$dados_motivacao['motivacao'] = Purifier::clean($request->input('motivacao'));
 				$dados_motivacao['updated_at'] = date('Y-m-d H:i:s');
 				
-				DB::table('carta_motivacoes')->where('id_candidato', $id_candidato)->where('id_inscricao_pos', $id_inscricao_pos)->update($dados_motivacao);
+				DB::table('carta_motivacoes')->where('id_candidato', $id_candidato)->where('id_inscricao_verao', $id_inscricao_verao)->update($dados_motivacao);
 			}
 
 			notify()->flash(trans('mensagens_gerais.mensagem_sucesso'),'success');
