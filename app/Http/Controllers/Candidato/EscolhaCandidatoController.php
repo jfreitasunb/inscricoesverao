@@ -112,54 +112,51 @@ class EscolhaCandidatoController extends BaseController
 
 			if (!is_null($candidato_ja_escolheu)) {
 
-					$canditato_recomendante = new ContatoRecomendante();
+				$canditato_recomendante = new ContatoRecomendante();
 
-					$contatos_recomendantes = $canditato_recomendante->retorna_recomendante_candidato($id_user,$id_inscricao_verao);
+				$contatos_recomendantes = $canditato_recomendante->retorna_recomendante_candidato($id_user,$id_inscricao_verao);
 
-					if (count($contatos_recomendantes) > 0) {
-						$i = 1;
-						foreach ($contatos_recomendantes as $recomendante) {
+				if (count($contatos_recomendantes) > 0) {
+					$i = 1;
+					foreach ($contatos_recomendantes as $recomendante) {
+				
+						$usuario_recomendante = User::find($recomendante->id_recomendante);
 					
-							$usuario_recomendante = User::find($recomendante->id_recomendante);
-						
-							$dado_recomendante = new DadoPessoalRecomendante();
+						$dado_recomendante = new DadoPessoalRecomendante();
 
-							$dados_recomendante = $dado_recomendante->retorna_dados_pessoais_recomendante($recomendante->id_recomendante);
-						
-							$dados['email_recomendante_'.$i] = $usuario_recomendante->email;
-						
-							$dados['nome_recomendante_'.$i] = $dados_recomendante->nome_recomendante;
+						$dados_recomendante = $dado_recomendante->retorna_dados_pessoais_recomendante($recomendante->id_recomendante);
+					
+						$dados['email_recomendante_'.$i] = $usuario_recomendante->email;
+					
+						$dados['nome_recomendante_'.$i] = $dados_recomendante->nome_recomendante;
 
-							$i++;
-						}
+						$i++;
 					}
-
-					$dados['programa_pretendido'] = $candidato_ja_escolheu->programa_pretendido;
-					$dados['area_pos'] = $candidato_ja_escolheu->area_pos;
-					$dados['interesse_bolsa'] = $candidato_ja_escolheu->interesse_bolsa;
-					$dados['vinculo_empregaticio'] = $candidato_ja_escolheu->vinculo_empregaticio;
 				}
 
-			// if (in_array(2, $programas_disponiveis)) {
+				$dados['programa_pretendido'] = $candidato_ja_escolheu->programa_pretendido;
+				$dados['area_pos'] = $candidato_ja_escolheu->area_pos;
+				$dados['interesse_bolsa'] = $candidato_ja_escolheu->interesse_bolsa;
+				$dados['vinculo_empregaticio'] = $candidato_ja_escolheu->vinculo_empregaticio;
+			}
 
-				switch ($locale_candidato) {
-				 	case 'en':
-				 		$nome_coluna = 'nome_en';
-				 		break;
+			switch ($locale_candidato) {
+			 	case 'en':
+			 		$nome_coluna = 'nome_en';
+			 		break;
 
-				 	case 'es':
-				 		$nome_coluna = 'nome_es';
-				 		break;
-				 	
-				 	default:
-				 		$nome_coluna = 'nome_ptbr';
-				 		break;
-				 }
+			 	case 'es':
+			 		$nome_coluna = 'nome_es';
+			 		break;
+			 	
+			 	default:
+			 		$nome_coluna = 'nome_ptbr';
+			 		break;
+			 }
 
-				$oferta_verao = new OfertaCursoVerao;
+			$oferta_verao = new OfertaCursoVerao;
 
-				$cursos_verao = $oferta_verao->retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato);
-			// }
+			$cursos_verao = $oferta_verao->retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato);
 			
 			return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','cursos_verao','dados','nome_coluna'));
 
