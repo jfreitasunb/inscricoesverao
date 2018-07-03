@@ -60,8 +60,6 @@ class MotivacaoDocumentosController extends BaseController
 		$id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
 		$edital = $edital_ativo->retorna_inscricao_ativa()->edital;
 		$autoriza_inscricao = $edital_ativo->autoriza_inscricao();
-
-		$arquivos_editais = "storage/editais/";
 	
 		if ($autoriza_inscricao) {
 		
@@ -76,20 +74,7 @@ class MotivacaoDocumentosController extends BaseController
 				return redirect()->back();
 			}else{
 
-				$motivacao = new CartaMotivacao();
-
-				$fez_carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato,$id_inscricao_verao);
-
-				if (is_null($fez_carta_motivacao)) {
-					$dados['motivacao'] = '';
-
-					return view('templates.partials.candidato.motivacao_documentos',compact('arquivos_editais','edital', 'dados'));
-				}else{
-
-					$dados['motivacao'] = $fez_carta_motivacao->motivacao;
-
-					return view('templates.partials.candidato.motivacao_documentos',compact('arquivos_editais','edital','dados'));
-				}
+				return view('templates.partials.candidato.motivacao_documentos');
 				
 			}
 		}else{
