@@ -8,6 +8,7 @@
 return [
 	'tela_escolhas' => 'Escolha',
     'texto_programa' => 'No quadro abaixo você deve assinalar o programa pretendido. Para o doutorado, deve marcar ainda a subárea de interesse. A relação de orientadores em cada subárea pode ser encontrada no site do PPG/MAT.',
+    'texto_cursos_verao' => 'Escolhas os cursos de Verão que deseja participar',
 	'programa_disponivel' => 'Programa Pretendido',
     'texto_bolsas' => 'O programa conta com algumas bolsas de estudo que podem ser utilizadas por alunos que não possuam vínculo empregatício.',
     'interesse_bolsa' => 'Tem interesse em bolsa?',
