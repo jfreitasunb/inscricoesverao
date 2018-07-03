@@ -34,7 +34,9 @@ class EditarCursoVeraoController extends CoordenadorController
 
 	public function getEditarAreaPos()
 	{
-		$areas_pos_mat = CursoVeraoMat::orderBy('id_curso_verao')->get()->all();
+		$cursos = new CursoVeraoMat();
+
+		$areas_pos_mat = $cursos->retorna_cursos_de_verao();
 
 		return view('templates.partials.coordenador.editar_area_pos')->with(compact('areas_pos_mat'));
 	}
