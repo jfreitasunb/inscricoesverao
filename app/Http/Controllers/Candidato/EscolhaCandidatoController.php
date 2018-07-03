@@ -140,7 +140,7 @@ class EscolhaCandidatoController extends BaseController
 					$dados['vinculo_empregaticio'] = $candidato_ja_escolheu->vinculo_empregaticio;
 				}
 
-			if (in_array(2, $programas_disponiveis)) {
+			// if (in_array(2, $programas_disponiveis)) {
 
 				switch ($locale_candidato) {
 				 	case 'en':
@@ -156,12 +156,12 @@ class EscolhaCandidatoController extends BaseController
 				 		break;
 				 }
 
-				$areas_pos = new OfertaCursoVerao;
+				$oferta_verao = new OfertaCursoVerao;
 
-				dd($areas_pos->retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato));
-			}
+				$cursos_verao = $oferta_verao->retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato);
+			// }
 			
-			return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','areas_pos','dados'));
+			return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','cursos_verao','dados','nome_coluna'));
 
 			if (in_array(3, $programas_disponiveis)) {
 			
