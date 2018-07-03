@@ -152,31 +152,6 @@ class FinalizarInscricaoController extends BaseController
 				return redirect()->back();
 			}
 
-			
-
-			$recomendantes_candidato = new ContatoRecomendante();
-
-			$informou_recomendantes = $recomendantes_candidato->retorna_recomendante_candidato($id_candidato,$id_inscricao_verao);
-
-
-			if (count($informou_recomendantes) < 3) {
-				
-				notify()->flash(trans('tela_finalizar_inscricao.falta_recomendante'),'warning');
-
-				return redirect()->route('dados.escolhas');
-			}
-
-			$informou_motivacao = new CartaMotivacao();
-
-			$fez_carta_motivacao = $informou_motivacao->retorna_carta_motivacao($id_candidato, $id_inscricao_verao);
-
-			if (is_null($fez_carta_motivacao)) {
-				
-				notify()->flash(trans('tela_finalizar_inscricao.falta_motivacao'),'warning');
-
-				return redirect()->route('motivacao.documentos');
-			}
-
 			$documentos = new Documento();
 
 			$enviou_historico = $documentos->retorna_historico($id_candidato, $id_inscricao_verao);
@@ -202,27 +177,6 @@ class FinalizarInscricaoController extends BaseController
 			$dados_email_candidato['nome_candidato'] = $dados_pessoais_candidato->nome;
 			$dados_email_candidato['programa'] = $nome_programa_pos_candidato;
 
-			foreach ($informou_recomendantes as $recomendante) {
-				
-				if (!$recomendante->email_enviado) {
-
-					$dado_pessoal_recomendante = User::find($recomendante->id_recomendante);
-
-
-					$prazo_envio = Carbon::createFromFormat('Y-m-d', $edital_ativo->retorna_inscricao_ativa()->prazo_carta);
-
-					$dados_email['nome_professor'] = $dado_pessoal_recomendante->nome;
-        			$dados_email['nome_candidato'] = $dados_pessoais_candidato->nome;
-			        $dados_email['programa'] = $nome_programa_pos_candidato;
-        			$dados_email['email_recomendante'] = $dado_pessoal_recomendante->email;
-        			$dados_email['prazo_envio'] = $prazo_envio->format('d/m/Y');
-
-					Notification::send(User::find($recomendante->id_recomendante), new NotificaRecomendante($dados_email));
-
-					DB::table('contatos_recomendantes')->where('id', $recomendante->id)->where('id_candidato', $recomendante->id_candidato)->where('id_inscricao_verao', $recomendante->id_inscricao_verao)->update(['email_enviado' => 'true']);
-
-				}
-			}
 			
 
 			$dados_email_candidato['ficha_inscricao'] = $request->ficha_inscricao;
