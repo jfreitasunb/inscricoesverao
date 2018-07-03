@@ -21,7 +21,7 @@ class EscolhaCursoVerao extends Model
 
     public function retorna_escolha_candidato($id_candidato,$id_inscricao_verao)
     {
-        return $this->where("id_candidato", $id_candidato)->where("id_inscricao_verao", $id_inscricao_verao)->get()->first();
+        return $this->where("id_candidato", $id_candidato)->where("id_inscricao_verao", $id_inscricao_verao)->get();
     }
 
     public function usuarios_nao_finalizados($id_inscricao_verao)
