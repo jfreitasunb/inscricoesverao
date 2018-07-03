@@ -87,10 +87,8 @@ class MotivacaoDocumentosController extends BaseController
 	public function postMotivacaoDocumentos(Request $request)
 	{
 		$this->validate($request, [
-			'motivacao' => 'required',
 			'documentos_pessoais' => 'required|max:20000',
 			'historico' => 'required|max:20000',
-			'concorda_termos' => 'required',
 		]);
 
 			$user = $this->SetUser();
