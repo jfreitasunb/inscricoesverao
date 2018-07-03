@@ -21,9 +21,9 @@
             <label class="radio-inline">{!! Form::radio('programa_pretendido', $programa, $dados['programa_pretendido'] == $programa ?: '', ['required' => '']) !!} {!! $key !!}</label>
           </div>
         @endforeach
-        @if(isset($areas_pos))
+        @if(isset($cursos_verao))
           <div class="col-md-3">
-            <label class="radio">{!! Form::select('area_pos', $areas_pos, $dados['area_pos'] ? : '',  ['class' => 'form-control col-md-6']) !!}</label>
+            <label class="radio">{!! Form::select('cursos_verao', $cursos_verao->nome_ptbr,  ['class' => 'form-control col-md-6']) !!}</label>
           </div>    
         @endif
       </div>
