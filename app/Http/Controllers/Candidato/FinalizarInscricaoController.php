@@ -20,7 +20,7 @@ use Veraomat\Models\DadoPessoalCandidato;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\Estado;
 use Veraomat\Models\DadoAcademicoCandidato;
-use Veraomat\Models\EscolhaCandidato;
+use Veraomat\Models\EscolhaCursoVerao;
 use Veraomat\Models\DadoPessoalRecomendante;
 use Veraomat\Models\ContatoRecomendante;
 use Veraomat\Models\CartaRecomendacao;
@@ -90,6 +90,29 @@ class FinalizarInscricaoController extends BaseController
 
 				return redirect()->route('dados.pessoais');
 			}
+
+			$informou_dados_academicos = DadoAcademicoCandidato::find($id_candidato);
+
+
+			if (is_null($informou_dados_academicos)) {
+				
+				notify()->flash(trans('tela_finalizar_inscricao.falta_dados_academicos'),'warning');
+
+				return redirect()->route('dados.academicos');
+			}
+
+			$informou_escolha = new EscolhaCursoVerao();
+
+			$escolheu = $informou_escolha->retorna_escolha_candidato($id_candidato,$id_inscricao_pos);
+			
+			if (is_null($escolheu)) {
+				
+				notify()->flash(trans('tela_finalizar_inscricao.falta_escolha'),'warning');
+
+				return redirect()->route('dados.escolhas');
+			}
+
+			dd("aqui");
 			
 			$novo_relatorio = new RelatorioController;
 
@@ -131,28 +154,7 @@ class FinalizarInscricaoController extends BaseController
 				return redirect()->back();
 			}
 
-			$informou_dados_academicos = DadoAcademicoCandidato::find($id_candidato);
-
-
-			if (is_null($informou_dados_academicos)) {
-				
-				notify()->flash(trans('tela_finalizar_inscricao.falta_dados_academicos'),'warning');
-
-				return redirect()->route('dados.academicos');
-			}
-
-			$informou_escolha = new EscolhaCandidato();
-
-			$escolheu = $informou_escolha->retorna_escolha_candidato($id_candidato,$id_inscricao_pos);
 			
-
-
-			if (is_null($escolheu)) {
-				
-				notify()->flash(trans('tela_finalizar_inscricao.falta_escolha'),'warning');
-
-				return redirect()->route('dados.escolhas');
-			}
 
 			$recomendantes_candidato = new ContatoRecomendante();
 
