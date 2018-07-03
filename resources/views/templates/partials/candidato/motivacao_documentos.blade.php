@@ -5,23 +5,8 @@
 @endsection
 
 @section('motivacao_documentos')
-<fieldset class="scheduler-border">
-  <legend class="scheduler-border"></legend>
-    <div class="row">
-      {{trans('tela_motivacao_documentos.texto_motivacao')}}
-    </div>
-</fieldset>
 
 {!! Form::open(array('route' => 'motivacao.documentos', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'data-parsley-validate' => '' )) !!}
-      
-  <fieldset class="scheduler-border">
-    <legend class="scheduler-border">{{trans('tela_motivacao_documentos.motivacao')}}</legend>
-      <div class="row">
-        <div class="col-md-12">
-          {!! Form::textarea('motivacao', $dados['motivacao'] ?: '' , ['class' => 'form-control', 'rows' => '15', 'required' => '']) !!} 
-        </div>
-      </div>
-  </fieldset>
 
   <fieldset class="scheduler-border">
         <legend class="scheduler-border">{{ trans('tela_motivacao_documentos.documentos_pessoais') }}</legend>
@@ -63,15 +48,6 @@
             <span class="help-block">{{ $errors->first('historico') }}</span>
           @endif
         </div>
-  </fieldset>
-
-  <fieldset class="scheduler-border">
-      <div class="row">
-        <p> {{ trans('tela_motivacao_documentos.concordancia_1') }} {{ link_to($arquivos_editais.'Edital_MAT_'.$edital.'.pdf',trans('tela_motivacao_documentos.texto_link_edital'), array('target' => '_blank' )) }} {{ trans('tela_motivacao_documentos.concordancia_2') }}</p>
-        <label>
-          {!! Form::checkbox('concorda_termos', '1', null, ['class' => 'control-label', 'required' => '']) !!} {{ trans('tela_motivacao_documentos.concordancia_3') }}
-        </label>
-      </div>
   </fieldset>
 
       <div class="form-group">
