@@ -50,7 +50,7 @@
         </p>
        
         <h2>
-                {{ trans('tela_finalizar_inscricao.ficha_inscricao') }} - {{ $dados_candidato_para_relatorio['programa_pretendido'] }} {{ $dados_candidato_para_relatorio['curso_verao'] ? ' - '.$dados_candidato_para_relatorio['curso_verao']: '' }}</h2>
+                {{ trans('tela_finalizar_inscricao.ficha_inscricao') }} - {{ $dados_candidato_para_relatorio['programa_pretendido'] }}</h2>
 
         <div>
             <label class="control-label">{{ trans('tela_dados_pessoais.nome') }}: </label>{{ $dados_candidato_para_relatorio['nome'] }}
