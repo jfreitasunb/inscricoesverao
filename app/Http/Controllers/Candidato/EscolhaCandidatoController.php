@@ -67,7 +67,7 @@ class EscolhaCandidatoController extends BaseController
 		$autoriza_inscricao = $edital_ativo->autoriza_inscricao();
 
 		if ($autoriza_inscricao) {
-			$programas_disponiveis = explode("_", $edital_ativo->retorna_inscricao_ativa()->programa);
+			$programas_disponiveis = explode("_", $edital_ativo->retorna_inscricao_ativa()->tipo_evento);
 
 			$nome_programa_pos = new ProgramaPos();
 
