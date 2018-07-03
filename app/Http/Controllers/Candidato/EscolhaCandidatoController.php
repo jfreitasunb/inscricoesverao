@@ -20,7 +20,7 @@ use Veraomat\Models\DadoPessoalCandidato;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\Estado;
 use Veraomat\Models\DadoAcademico;
-use Veraomat\Models\EscolhaCandidato;
+use Veraomat\Models\EscolhaCursoVerao;
 use Veraomat\Models\DadoPessoalRecomendante;
 use Veraomat\Models\ContatoRecomendante;
 use Veraomat\Models\CartaRecomendacao;
@@ -106,7 +106,7 @@ class EscolhaCandidatoController extends BaseController
 			$dados['email_recomendante_2'] = null;
 			$dados['email_recomendante_3'] = null;
 
-			$escolha_candidato = new EscolhaCandidato();
+			$escolha_candidato = new EscolhaCursoVerao();
 
 			$candidato_ja_escolheu = $escolha_candidato->retorna_escolha_candidato($id_user, $id_inscricao_verao);
 
@@ -195,26 +195,19 @@ class EscolhaCandidatoController extends BaseController
 			}
 
 			$programas_disponiveis = explode("_", $edital_ativo->retorna_inscricao_ativa()->programa);
-	
+
 			$this->validate($request, [
 				'programa_pretendido' => 'required',
-				'interesse_bolsa' => 'required',
-				'vinculo_empregaticio' => 'required',
-				'nome_recomendante' => 'required',
-				'email_recomendante' => 'required|tres_recomendantes',
-				'confirmar_email_recomendante' => 'required|same:email_recomendante',
 			]);
 
-			if (is_null($request->area_pos) and ($request->programa_pretendido === '2')) {
+			if (is_null($request->curso_desejado) and ($request->programa_pretendido === '2')) {
 				
 				notify()->flash(trans('mensagens_gerais.informe_area'),'warning');
 
 				return redirect()->back();
 			}
 
-
-			
-			$escolhas_candidato = new EscolhaCandidato();
+			$escolhas_candidato = new EscolhaCursoVerao();
 
 			$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request);
 
