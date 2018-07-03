@@ -12,7 +12,7 @@ use Notification;
 use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
-use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\CursoVeraoMat;
 use Veraomat\Models\CartaRecomendacao;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\ProgramaPos;
@@ -29,7 +29,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 /**
 * Classe para visualização da página inicial.
 */
-class CadastraAreaPosController extends CoordenadorController
+class CadastraCursoVeraoController extends CoordenadorController
 {
 
 	public function getCadastraAreaPos()
@@ -46,7 +46,7 @@ class CadastraAreaPosController extends CoordenadorController
 			'nome_es' => 'required',
 		]);
 
-		$nova_area_pos = new AreaPosMat;
+		$nova_area_pos = new CursoVeraoMat;
 
 		$nova_area_pos->nome_ptbr = trim($request->nome_ptbr);
 		$nova_area_pos->nome_en = trim($request->nome_en);

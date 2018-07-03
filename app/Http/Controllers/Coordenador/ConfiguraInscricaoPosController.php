@@ -54,9 +54,6 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
         $escolhas_coordenador = $request->escolhas_coordenador;
 
-        
-
-
         if (is_null($request->curso_verao) and (in_array(2, $escolhas_coordenador))) {
                     
             notify()->flash(trans('Você deve selecionar as disciplinas do Verão.'),'warning');
@@ -74,10 +71,13 @@ class ConfiguraInscricaoPosController extends CoordenadorController
     	$data_inicio = $inicio->format('Y-m-d');
     	$data_fim = $fim->format('Y-m-d');
 
+        $ano_evento = (int)$inicio->format('Y') + 1;
+
     	if ($configura_nova_inscricao_pos->autoriza_configuracao_inscricao($data_inicio)) {
 
     		$configura_nova_inscricao_pos->inicio_inscricao = $data_inicio;
 			$configura_nova_inscricao_pos->fim_inscricao = $data_fim;
+            $configura_nova_inscricao_pos->ano_evento = $ano_evento;
 			$configura_nova_inscricao_pos->tipo_evento = implode("_", $request->escolhas_coordenador);
 			$configura_nova_inscricao_pos->id_coordenador = $user->id_user;
 			

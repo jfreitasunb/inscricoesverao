@@ -12,7 +12,7 @@ use Notification;
 use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
-use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\CursoVeraoMat;
 use Veraomat\Models\CartaRecomendacao;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\ProgramaPos;
@@ -29,12 +29,12 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 /**
 * Classe para visualização da página inicial.
 */
-class EditarAreaPosController extends CoordenadorController
+class EditarCursoVeraoController extends CoordenadorController
 {
 
 	public function getEditarAreaPos()
 	{
-		$areas_pos_mat = AreaPosMat::orderBy('id_area_pos')->get()->all();
+		$areas_pos_mat = CursoVeraoMat::orderBy('id_curso_verao')->get()->all();
 
 		return view('templates.partials.coordenador.editar_area_pos')->with(compact('areas_pos_mat'));
 	}
@@ -42,13 +42,13 @@ class EditarAreaPosController extends CoordenadorController
 	public function postEditarAreaPos(Request $request)
 	{
 		$this->validate($request, [
-			'id_area_pos' => 'required',
+			'id_curso_verao' => 'required',
 			'nome_ptbr' => 'required',
 			'nome_en' => 'required',
 			'nome_es' => 'required',
 		]);
 
-		$id_area_pos = (int)$request->id_area_pos;
+		$id_curso_verao = (int)$request->id_curso_verao;
 
 		$dados_area_pos = [
 			'nome_ptbr' => trim($request->nome_ptbr),
@@ -56,7 +56,7 @@ class EditarAreaPosController extends CoordenadorController
 			'nome_es' => trim($request->nome_es),
 		];
 
-		$area_pos = AreaPosMat::find($id_area_pos);
+		$area_pos = CursoVeraoMat::find($id_curso_verao);
 
 		$status_atualizacao = $area_pos->update($dados_area_pos);
 
