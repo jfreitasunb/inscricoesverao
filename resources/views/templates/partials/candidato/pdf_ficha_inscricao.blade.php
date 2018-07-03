@@ -50,7 +50,7 @@
         </p>
        
         <h2>
-                {{ trans('tela_finalizar_inscricao.ficha_inscricao') }} - {{ $dados_candidato_para_relatorio['programa_pretendido'] }} {{ $dados_candidato_para_relatorio['area_pos'] ? ' - '.$dados_candidato_para_relatorio['area_pos']: '' }}</h2>
+                {{ trans('tela_finalizar_inscricao.ficha_inscricao') }} - {{ $dados_candidato_para_relatorio['programa_pretendido'] }} {{ $dados_candidato_para_relatorio['curso_verao'] ? ' - '.$dados_candidato_para_relatorio['curso_verao']: '' }}</h2>
 
         <div>
             <label class="control-label">{{ trans('tela_dados_pessoais.nome') }}: </label>{{ $dados_candidato_para_relatorio['nome'] }}
@@ -91,27 +91,7 @@
         <hr>
         <h3>{{ trans('tela_escolha_candidato.tela_escolhas') }}</h3>
         <div>
-            <label>{{ trans('tela_escolha_candidato.programa_disponivel') }}: </label>{{ $dados_candidato_para_relatorio['programa_pretendido'] }} {!! $dados_candidato_para_relatorio['area_pos'] ? '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label> Área: </label>'.$dados_candidato_para_relatorio['area_pos']: '' !!}
+            <label>{{ trans('tela_escolha_candidato.programa_disponivel') }}: </label>{{ $dados_candidato_para_relatorio['programa_pretendido'] }} {!! $dados_candidato_para_relatorio['curso_verao'] ? '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label> Área: </label>'.$dados_candidato_para_relatorio['curso_verao']: '' !!}
         </div>
-        <div>
-            <label>{{ trans('tela_escolha_candidato.interesse_bolsa') }}: </label> {{ $dados_candidato_para_relatorio['interesse_bolsa'] ?  trans('tela_escolha_candidato.sim')  :  trans('tela_escolha_candidato.nao') }}
-        </div>
-        <div>
-            <label>{{ trans('tela_escolha_candidato.vinculo_empregaticio') }}: </label> {{ $dados_candidato_para_relatorio['vinculo_empregaticio'] ? trans('tela_escolha_candidato.sim')  :  trans('tela_escolha_candidato.nao') }}
-        </div>
-
-        <hr>
-        <h3>{{ trans('tela_escolha_candidato.recomendante') }}</h3>
-        @foreach ($recomendantes_candidato as $recomendante)
-        <div>
-            <label> {{ trans('tela_escolha_candidato.nome') }}: </label> {{ $recomendante['nome'] }}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <label>Email: </label>{{ $recomendante['email'] }}
-        </div>
-        @endforeach
-
-        <hr>
-        <h3>{{ trans('tela_motivacao_documentos.tela_motivacao_documentos') }}</h3>
-        <p class="motivacao">
-            {!! $dados_candidato_para_relatorio['motivacao'] !!}
-        </p>
     </body>
 </html>
