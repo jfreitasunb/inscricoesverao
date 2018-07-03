@@ -89,22 +89,7 @@ class EscolhaCandidatoController extends BaseController
 
 			$dados = [];
 			$dados['programa_pretendido'] = null;
-			$dados['area_pos'] = null;
-			$dados['interesse_bolsa'] = null;
-			$dados['vinculo_empregaticio'] = null;
-					
-			$dados['nome_recomendante_1'] = null;
-			$dados['nome_recomendante_2'] = null;
-			$dados['nome_recomendante_3'] = null;
-			$dados['email_recomendante_1'] = null;
-			$dados['email_recomendante_2'] = null;
-			$dados['email_recomendante_3'] = null;
-			$dados['nome_recomendante_1'] = null;
-			$dados['nome_recomendante_2'] = null;
-			$dados['nome_recomendante_3'] = null;
-			$dados['email_recomendante_1'] = null;
-			$dados['email_recomendante_2'] = null;
-			$dados['email_recomendante_3'] = null;
+			$dados['curso_verao'] = null;
 
 			$escolha_candidato = new EscolhaCursoVerao();
 
@@ -112,32 +97,8 @@ class EscolhaCandidatoController extends BaseController
 
 			if (!is_null($candidato_ja_escolheu)) {
 
-				$canditato_recomendante = new ContatoRecomendante();
-
-				$contatos_recomendantes = $canditato_recomendante->retorna_recomendante_candidato($id_user,$id_inscricao_verao);
-
-				if (count($contatos_recomendantes) > 0) {
-					$i = 1;
-					foreach ($contatos_recomendantes as $recomendante) {
-				
-						$usuario_recomendante = User::find($recomendante->id_recomendante);
-					
-						$dado_recomendante = new DadoPessoalRecomendante();
-
-						$dados_recomendante = $dado_recomendante->retorna_dados_pessoais_recomendante($recomendante->id_recomendante);
-					
-						$dados['email_recomendante_'.$i] = $usuario_recomendante->email;
-					
-						$dados['nome_recomendante_'.$i] = $dados_recomendante->nome_recomendante;
-
-						$i++;
-					}
-				}
-
 				$dados['programa_pretendido'] = $candidato_ja_escolheu->programa_pretendido;
-				$dados['area_pos'] = $candidato_ja_escolheu->area_pos;
-				$dados['interesse_bolsa'] = $candidato_ja_escolheu->interesse_bolsa;
-				$dados['vinculo_empregaticio'] = $candidato_ja_escolheu->vinculo_empregaticio;
+				$dados['curso_verao'] = $candidato_ja_escolheu->area_pos;
 			}
 
 			switch ($locale_candidato) {
