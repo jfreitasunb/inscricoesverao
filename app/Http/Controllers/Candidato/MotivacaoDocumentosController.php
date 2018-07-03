@@ -115,25 +115,6 @@ class MotivacaoDocumentosController extends BaseController
 			$arquivo->id_inscricao_verao = $id_inscricao_verao;
 			$arquivo->save();
 
-			$motivacao = new CartaMotivacao();
-
-			$carta_motivacao = $motivacao->retorna_carta_motivacao($id_candidato, $id_inscricao_verao);
-
-
-			if (is_null($carta_motivacao)) {
-				$nova_motivacao = new CartaMotivacao();
-				$nova_motivacao->id_candidato = $id_candidato;
-				$nova_motivacao->motivacao = Purifier::clean($request->input('motivacao'));
-				$nova_motivacao->concorda_termos = (bool)$request->input('concorda_termos');
-				$nova_motivacao->id_inscricao_verao = $id_inscricao_verao;
-				$nova_motivacao->save();
-			}else{
-				$dados_motivacao['motivacao'] = Purifier::clean($request->input('motivacao'));
-				$dados_motivacao['updated_at'] = date('Y-m-d H:i:s');
-				
-				DB::table('carta_motivacoes')->where('id_candidato', $id_candidato)->where('id_inscricao_verao', $id_inscricao_verao)->update($dados_motivacao);
-			}
-
 			notify()->flash(trans('mensagens_gerais.mensagem_sucesso'),'success');
 
 			return redirect()->route('finalizar.inscricao');		
