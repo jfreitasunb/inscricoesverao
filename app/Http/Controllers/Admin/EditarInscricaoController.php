@@ -42,18 +42,14 @@ class EditarInscricaoController extends AdminController
 		$this->validate($request, [
 			'inicio_inscricao' => 'required|date_format:"Y-m-d"|before:fim_inscricao',
 			'fim_inscricao' => 'required|date_format:"Y-m-d"|after:inicio_inscricao',
-			'prazo_carta' => 'required|date_format:"Y-m-d"|after:inicio_inscricao',
-			'edital' => 'required',
-			'programa' => 'required',
+			'tipo_evento' => 'required',
 		]);
 
-		$edital_vigente = ConfiguraInscricaoPos::find((int)$request->id_inscricao_pos);
+		$edital_vigente = ConfiguraInscricaoPos::find((int)$request->id_inscricao_verao);
 
 		$novos_dados_edital['inicio_inscricao'] = $request->inicio_inscricao;
 		$novos_dados_edital['fim_inscricao'] = $request->fim_inscricao;
-		$novos_dados_edital['prazo_carta'] = $request->prazo_carta;
-		$novos_dados_edital['programa'] = $request->programa;
-		$novos_dados_edital['edital'] = $request->edital;
+		$novos_dados_edital['tipo_evento'] = $request->tipo_evento;
 
 		$edital_vigente->update($novos_dados_edital);
 
