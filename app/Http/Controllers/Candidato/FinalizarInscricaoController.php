@@ -111,6 +111,19 @@ class FinalizarInscricaoController extends BaseController
 
 				return redirect()->route('dados.escolhas');
 			}
+
+			$documentos = new Documento();
+
+			$enviou_historico = $documentos->retorna_historico($id_candidato, $id_inscricao_verao);
+
+			$enviou_documentos = $documentos->retorna_documento($id_candidato, $id_inscricao_verao);
+
+			if (is_null($enviou_historico) or is_null($enviou_documentos)) {
+				
+				notify()->flash(trans('tela_finalizar_inscricao.falta_documentos'),'warning');
+
+				return redirect()->route('motivacao.documentos');
+			}
 			
 			$novo_relatorio = new RelatorioController;
 
@@ -150,19 +163,6 @@ class FinalizarInscricaoController extends BaseController
 				notify()->flash(trans('mensagens_gerais.inscricao_finalizada'),'warning');
 
 				return redirect()->back();
-			}
-
-			$documentos = new Documento();
-
-			$enviou_historico = $documentos->retorna_historico($id_candidato, $id_inscricao_verao);
-
-			$enviou_documentos = $documentos->retorna_documento($id_candidato, $id_inscricao_verao);
-
-			if (is_null($enviou_historico) or is_null($enviou_documentos)) {
-				
-				notify()->flash(trans('tela_finalizar_inscricao.falta_documentos'),'warning');
-
-				return redirect()->route('motivacao.documentos');
 			}
 
 			$dados_pessoais_candidato = User::find($id_candidato);
