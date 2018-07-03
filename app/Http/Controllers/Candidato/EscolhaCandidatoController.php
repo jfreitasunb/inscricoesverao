@@ -63,7 +63,7 @@ class EscolhaCandidatoController extends BaseController
 		
 		$edital_ativo = new ConfiguraInscricaoPos();
 
-		$id_inscricao_pos = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_pos;
+		$id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
 		$autoriza_inscricao = $edital_ativo->autoriza_inscricao();
 
 		if ($autoriza_inscricao) {
@@ -78,7 +78,7 @@ class EscolhaCandidatoController extends BaseController
 
 			$finaliza_inscricao = new FinalizaInscricao();
 
-			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_user,$id_inscricao_pos);
+			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_user,$id_inscricao_verao);
 
 			if ($status_inscricao) {
 
@@ -108,13 +108,13 @@ class EscolhaCandidatoController extends BaseController
 
 			$escolha_candidato = new EscolhaCandidato();
 
-			$candidato_ja_escolheu = $escolha_candidato->retorna_escolha_candidato($id_user, $id_inscricao_pos);
+			$candidato_ja_escolheu = $escolha_candidato->retorna_escolha_candidato($id_user, $id_inscricao_verao);
 
 			if (!is_null($candidato_ja_escolheu)) {
 
 					$canditato_recomendante = new ContatoRecomendante();
 
-					$contatos_recomendantes = $canditato_recomendante->retorna_recomendante_candidato($id_user,$id_inscricao_pos);
+					$contatos_recomendantes = $canditato_recomendante->retorna_recomendante_candidato($id_user,$id_inscricao_verao);
 
 					if (count($contatos_recomendantes) > 0) {
 						$i = 1;
@@ -186,14 +186,14 @@ class EscolhaCandidatoController extends BaseController
 		
 		$edital_ativo = new ConfiguraInscricaoPos();
 
-		$id_inscricao_pos = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_pos;
+		$id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
 		$autoriza_inscricao = $edital_ativo->autoriza_inscricao();
 
 		if ($autoriza_inscricao) {
 			
 			$finaliza_inscricao = new FinalizaInscricao();
 
-			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_candidato,$id_inscricao_pos);
+			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_candidato,$id_inscricao_verao);
 
 			if ($status_inscricao) {
 
@@ -227,7 +227,7 @@ class EscolhaCandidatoController extends BaseController
 				
 				$escolhas_candidato = new EscolhaCandidato();
 
-				$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_pos,$request);
+				$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request);
 
 				$email_contatos_recomendantes = [];
 
@@ -278,11 +278,11 @@ class EscolhaCandidatoController extends BaseController
 
 				$contatos_recomendantes = new ContatoRecomendante();
 
-				$candidato_recomendantes = $contatos_recomendantes->processa_indicacoes($id_candidato, $id_inscricao_pos, $email_contatos_recomendantes);
+				$candidato_recomendantes = $contatos_recomendantes->processa_indicacoes($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
 
 				$carta_recomendacao = new CartaRecomendacao();
 
-				$inicia_carta = $carta_recomendacao->inicia_carta_candidato($id_candidato, $id_inscricao_pos, $email_contatos_recomendantes);
+				$inicia_carta = $carta_recomendacao->inicia_carta_candidato($id_candidato, $id_inscricao_verao, $email_contatos_recomendantes);
 
 			}
 			
