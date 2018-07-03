@@ -200,6 +200,8 @@ class EscolhaCandidatoController extends BaseController
 				'programa_pretendido' => 'required',
 			]);
 
+			$programa_pretendido = (int)$request->programa_pretendido;
+			
 			if (is_null($request->curso_desejado) and ($request->programa_pretendido === '2')) {
 				
 				notify()->flash(trans('mensagens_gerais.informe_area'),'warning');
@@ -207,9 +209,24 @@ class EscolhaCandidatoController extends BaseController
 				return redirect()->back();
 			}
 
-			$escolhas_candidato = new EscolhaCursoVerao();
+			if ($programa_pretendido === 2) {
+				
+				foreach ($request->curso_desejado as $escolhido) {
+					
+					$escolhas_curso_verao = new EscolhaCursoVerao();
 
-			$registra_escolhas_candidato = $escolhas_candidato->grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request);
+					$escolhas_curso_verao->id_candidato = $id_candidato;
+            		$escolhas_curso_verao->programa_pretendido = $programa_pretendido;
+            		$escolhas_curso_verao->curso_verao = $escolhido;
+            		$escolhas_curso_verao->id_inscricao_verao = $id_inscricao_verao;
+            		$escolhas_curso_verao->save();
+				}
+			}
+			
+
+			dd("aqui");
+
+			
 
 			$email_contatos_recomendantes = [];
 
