@@ -14,6 +14,7 @@ use Veraomat\Http\Controllers\FPDFController;
 use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
+use Veraomat\Models\CursoVeraoMat;
 use Veraomat\Models\FinalizaInscricao;
 use Veraomat\Models\DadoPessoalCandidato;
 use Veraomat\Models\Paises;
@@ -23,11 +24,7 @@ use Veraomat\Models\Cidade;
 use Veraomat\Models\DadoPessoalRecomendante;
 use Veraomat\Models\DadoAcademicoCandidato;
 use Veraomat\Models\Documento;
-use Veraomat\Models\EscolhaCandidato;
-use Veraomat\Models\ContatoRecomendante;
-use Veraomat\Models\CartaMotivacao;
-use Veraomat\Models\CartaRecomendacao;
-use Veraomat\Models\AreaPosMat;
+use Veraomat\Models\EscolhaCursoVerao;
 use Veraomat\Models\ProgramaPos;
 use Illuminate\Http\Request;
 use Veraomat\Mail\EmailVerification;
@@ -56,10 +53,10 @@ class RelatorioController extends BaseController
       'ă'=>'a', 'î'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t', 'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T',
     );
 
-  public function ContaInscricoes($id_inscricao_pos, $programa)
+  public function ContaInscricoes($id_inscricao_verao, $programa)
   {
      
-    return DB::table('escolhas_candidato')->where('escolhas_candidato.id_inscricao_pos', $id_inscricao_pos)->where('escolhas_candidato.programa_pretendido', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_candidato.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_pos', $id_inscricao_pos)->count();
+    return DB::table('escolhas_candidato')->where('escolhas_candidato.id_inscricao_verao', $id_inscricao_verao)->where('escolhas_candidato.programa_pretendido', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_candidato.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_verao', $id_inscricao_verao)->count();
 
   }
 
@@ -181,27 +178,29 @@ class RelatorioController extends BaseController
     return $consolida_academico;
   }
 
-  public function ConsolidaEscolhaCandidato($id_candidato,$id_inscricao_pos, $locale_relatorio)
+  public function ConsolidaEscolhaCandidato($id_candidato,$id_inscricao_verao, $locale_relatorio)
   {
     $consolida_escolha = [];
 
-    $escolha_candidato = new EscolhaCandidato();
+    $escolha_candidato = new EscolhaCursoVerao();
+
+    $curso_verao = new CursoVeraoMat();
 
     $programa_pos = new ProgramaPos();
 
-    $area_pos_mat = new AreaPosMat();
+    $escolha_feita_candidato = $escolha_candidato->retorna_escolha_candidato($id_candidato,$id_inscricao_verao);
 
-    $escolha_feita_candidato = $escolha_candidato->retorna_escolha_candidato($id_candidato,$id_inscricao_pos);
+    $consolida_escolha['curso_verao'] = null;
 
-    $consolida_escolha['programa_pretendido'] = $programa_pos->pega_programa_pos_mat($escolha_feita_candidato->programa_pretendido, $locale_relatorio);
-    $consolida_escolha['area_pos'] = $area_pos_mat->pega_area_pos_mat((int)$escolha_feita_candidato->area_pos, $locale_relatorio);
-    $consolida_escolha['interesse_bolsa'] = $escolha_feita_candidato->interesse_bolsa;
-    $consolida_escolha['vinculo_empregaticio'] = $escolha_feita_candidato->vinculo_empregaticio;
+    foreach ($escolha_feita_candidato as $escolha) {
+     $consolida_escolha['programa_pretendido'] = $programa_pos->pega_programa_pos_mat($escolha->programa_pretendido, $locale_relatorio);
+     $consolida_escolha['curso_verao'] .= $curso_verao->pega_area_pos_mat((int)$escolha->curso_verao, $locale_relatorio)."_";
+    }
 
     return $consolida_escolha;
   }
 
-  public function ConsolidaNomeRecomendantes($contatos_indicados,$id_candidato,$id_inscricao_pos)
+  public function ConsolidaNomeRecomendantes($contatos_indicados,$id_candidato,$id_inscricao_verao)
   {
     $nomes_recomendantes = [];
 
@@ -216,7 +215,7 @@ class RelatorioController extends BaseController
     return $nomes_recomendantes;
   }
 
-  public function ConsolidaCartaRecomendacao($contatos_indicados,$id_candidato,$id_inscricao_pos)
+  public function ConsolidaCartaRecomendacao($contatos_indicados,$id_candidato,$id_inscricao_verao)
   {
     $consolida_recomendacao = [];
 
@@ -224,7 +223,7 @@ class RelatorioController extends BaseController
       $dado_recomendante = new DadoPessoalRecomendante();
       $carta_recomendacao = new CartaRecomendacao();
 
-      $carta_candidato = $carta_recomendacao->retorna_carta_recomendacao($recomendante->id_recomendante,$id_candidato,$id_inscricao_pos);
+      $carta_candidato = $carta_recomendacao->retorna_carta_recomendacao($recomendante->id_recomendante,$id_candidato,$id_inscricao_verao);
 
       $usuario_recomendante = User::find($recomendante->id_recomendante);
 
@@ -261,7 +260,7 @@ class RelatorioController extends BaseController
     return $consolida_recomendacao;
   }
 
-  public function ConsolidaCartaPorRecomendante($id_recomendante,$id_candidato,$id_inscricao_pos)
+  public function ConsolidaCartaPorRecomendante($id_recomendante,$id_candidato,$id_inscricao_verao)
   {
     $consolida_recomendacao = [];
 
@@ -270,7 +269,7 @@ class RelatorioController extends BaseController
     $dado_recomendante = new DadoPessoalRecomendante();
     $carta_recomendacao = new CartaRecomendacao();
 
-    $carta_candidato = $carta_recomendacao->retorna_carta_recomendacao($id_recomendante,$id_candidato,$id_inscricao_pos);
+    $carta_candidato = $carta_recomendacao->retorna_carta_recomendacao($id_recomendante,$id_candidato,$id_inscricao_verao);
 
     $dados_pessoais_recomendante = $dado_recomendante->retorna_dados_pessoais_recomendante($id_recomendante);
     if (!is_null($dados_pessoais_recomendante)) {
@@ -341,19 +340,19 @@ class RelatorioController extends BaseController
     return $consolida_recomendacao;
   }
 
-  public function ConsolidaIndicaoes($id_candidato, $id_inscricao_pos)
+  public function ConsolidaIndicaoes($id_candidato, $id_inscricao_verao)
   {
 
     $contato_recomendante = new ContatoRecomendante();
 
-    return $contato_recomendante->retorna_recomendante_candidato($id_candidato, $id_inscricao_pos);
+    return $contato_recomendante->retorna_recomendante_candidato($id_candidato, $id_inscricao_verao);
   }
 
-  public function ConsolidaCartaMotivacao($id_candidato, $id_inscricao_pos)
+  public function ConsolidaCartaMotivacao($id_candidato, $id_inscricao_verao)
   {
     $carta_motivacao = new CartaMotivacao();
 
-    $dados_carta_motivacao = $carta_motivacao->retorna_carta_motivacao($id_candidato,$id_inscricao_pos);
+    $dados_carta_motivacao = $carta_motivacao->retorna_carta_motivacao($id_candidato,$id_inscricao_verao);
 
     return $dados_carta_motivacao->motivacao;
   }
@@ -373,16 +372,16 @@ class RelatorioController extends BaseController
       return $nome_arquivos;
   }
 
-  public function ConsolidaDocumentosPDF($id_candidato, $local_documentos, $id_inscricao_pos)
+  public function ConsolidaDocumentosPDF($id_candidato, $local_documentos, $id_inscricao_verao)
   {
 
     $nome_uploads = [];
 
     $documento = new Documento();
     
-    $nome_documento_banco = $local_documentos.$documento->retorna_documento($id_candidato, $id_inscricao_pos)->nome_arquivo;
+    $nome_documento_banco = $local_documentos.$documento->retorna_documento($id_candidato, $id_inscricao_verao)->nome_arquivo;
 
-    $nome_historico_banco = $local_documentos.$documento->retorna_historico($id_candidato, $id_inscricao_pos)->nome_arquivo;
+    $nome_historico_banco = $local_documentos.$documento->retorna_historico($id_candidato, $id_inscricao_verao)->nome_arquivo;
 
     if (File::extension($nome_documento_banco) != 'pdf')
       {
@@ -390,7 +389,7 @@ class RelatorioController extends BaseController
         
         $nome_documento_pdf = str_replace(File::extension($nome_documento_banco),'pdf', $nome_documento_banco);
 
-        DB::table('arquivos_enviados')->where('nome_arquivo', $nome_documento_banco)->where('tipo_arquivo', 'Documentos')->where('id_inscricao_pos', $id_inscricao_pos)->update(['nome_arquivo' => $nome_documento_pdf]);
+        DB::table('arquivos_enviados')->where('nome_arquivo', $nome_documento_banco)->where('tipo_arquivo', 'Documentos')->where('id_inscricao_verao', $id_inscricao_verao)->update(['nome_arquivo' => $nome_documento_pdf]);
 
         $img = new Imagick($nome_documento_banco);
         $img->setImageFormat('pdf');
@@ -402,7 +401,7 @@ class RelatorioController extends BaseController
 
         $nome_historico_pdf = str_replace(File::extension($nome_historico_banco),'pdf', $nome_historico_banco);
         
-        DB::table('arquivos_enviados')->where('nome_arquivo', $nome_historico_banco)->where('tipo_arquivo', 'Histórico')->where('id_inscricao_pos', $id_inscricao_pos)->update(['nome_arquivo' => $nome_historico_pdf]);
+        DB::table('arquivos_enviados')->where('nome_arquivo', $nome_historico_banco)->where('tipo_arquivo', 'Histórico')->where('id_inscricao_verao', $id_inscricao_verao)->update(['nome_arquivo' => $nome_historico_pdf]);
 
         $img = new Imagick($nome_historico_banco);
         $img->setImageFormat('pdf');
@@ -478,7 +477,7 @@ class RelatorioController extends BaseController
 
       $programa_para_inscricao[$programa] = $nome_programa_pos->pega_programa_pos_mat($programa, $locale_relatorio);
       
-      $contagem[$programa_para_inscricao[$programa]] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_pos, $programa);
+      $contagem[$programa_para_inscricao[$programa]] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_verao, $programa);
 
     }
 
@@ -516,7 +515,7 @@ class RelatorioController extends BaseController
  }
 
 
-  public function getArquivosRelatorios($id_inscricao_pos,$arquivos_zipados_para_view,$relatorio_csv)
+  public function getArquivosRelatorios($id_inscricao_verao,$arquivos_zipados_para_view,$relatorio_csv)
   {
 
     $locale_relatorio = 'pt-br';
@@ -533,14 +532,14 @@ class RelatorioController extends BaseController
      
      $programa_para_inscricao[$programa] = $nome_programa_pos->pega_programa_pos_mat($programa, $locale_relatorio);
      
-     $contagem[$programa_para_inscricao[$programa]] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_pos, $programa);
+     $contagem[$programa_para_inscricao[$programa]] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_verao, $programa);
     }
 
   $total_inscritos = array_sum($contagem);
   
   $nome_programas = implode('/', $programa_para_inscricao);
 
-  $monitoria = $id_inscricao_pos;
+  $monitoria = $id_inscricao_verao;
 
   $local_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel->edital);
 
@@ -557,12 +556,12 @@ class RelatorioController extends BaseController
   }
 
 
-  public function geraRelatorio($id_inscricao_pos)
+  public function geraRelatorio($id_inscricao_verao)
   {
 
     $locale_relatorio = 'pt-br';
 
-    $relatorio = ConfiguraInscricaoPos::find($id_inscricao_pos);
+    $relatorio = ConfiguraInscricaoPos::find($id_inscricao_verao);
 
     $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio->edital);
 
@@ -573,7 +572,7 @@ class RelatorioController extends BaseController
 
 
     $finaliza = new FinalizaInscricao();
-    $usuarios_finalizados = $finaliza->retorna_usuarios_relatorios($id_inscricao_pos);
+    $usuarios_finalizados = $finaliza->retorna_usuarios_relatorios($id_inscricao_verao);
 
     foreach ($usuarios_finalizados as $candidato) {
 
@@ -597,7 +596,7 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos, $locale_relatorio) as $key => $value) {
+      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao, $locale_relatorio) as $key => $value) {
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
@@ -605,16 +604,16 @@ class RelatorioController extends BaseController
 
       $contatos_indicados = [];
 
-      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos);
+      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao);
 
       $recomendantes_candidato = [];
 
       foreach ($contatos_indicados  as $id ) {
-        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_pos);
+        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_verao);
       }
 
 
-      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos));
+      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao));
 
       $nome_arquivos = [];
 
@@ -624,7 +623,7 @@ class RelatorioController extends BaseController
       $pdf = PDF::loadView('templates.partials.coordenador.pdf_relatorio', compact('dados_candidato_para_relatorio','recomendantes_candidato'));
       $pdf->save($nome_arquivos['arquivo_relatorio_candidato_temporario']);
 
-      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_pos);
+      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_verao);
 
       $this->ConsolidaFichaRelatorio($nome_arquivos, $nome_uploads);
 
@@ -635,7 +634,7 @@ class RelatorioController extends BaseController
     $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio->edital, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio->programa);
     
 
-    return $this->getArquivosRelatorios($id_inscricao_pos,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
+    return $this->getArquivosRelatorios($id_inscricao_verao,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
   }
 
   public function geraFichaIndividual($id_aluno, $locale_relatorio)
@@ -645,7 +644,7 @@ class RelatorioController extends BaseController
 
       $relatorio_disponivel = $relatorio->retorna_edital_vigente();
 
-      $id_inscricao_pos = $relatorio_disponivel->id_inscricao_pos;
+      $id_inscricao_verao = $relatorio_disponivel->id_inscricao_verao;
 
       $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel->edital);
 
@@ -661,24 +660,24 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos, $locale_relatorio) as $key => $value) {
+      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao, $locale_relatorio) as $key => $value) {
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos);
+      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao);
 
       foreach ($contatos_indicados  as $id ) {
-        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_pos);
+        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_verao);
       }
 
-      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos));
+      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao));
 
       $nome_arquivos = $this->ConsolidaNomeArquivos($locais_arquivos['arquivos_temporarios'], $locais_arquivos['local_relatorios'], $dados_candidato_para_relatorio);
       
       $pdf = PDF::loadView('templates.partials.coordenador.pdf_relatorio', compact('dados_candidato_para_relatorio','recomendantes_candidato'));
       $pdf->save($nome_arquivos['arquivo_relatorio_candidato_temporario']);
 
-      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_pos);
+      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_verao);
 
       $this->ConsolidaFichaRelatorio($nome_arquivos, $nome_uploads);
 
@@ -690,25 +689,25 @@ class RelatorioController extends BaseController
       return str_replace($endereco_mudar, 'storage/', $nome_arquivos['arquivo_relatorio_candidato_final']);
   }
 
-  public function getArquivosRelatoriosAnteriores($id_inscricao_pos,$arquivos_zipados_para_view,$relatorio_csv)
+  public function getArquivosRelatoriosAnteriores($id_inscricao_verao,$arquivos_zipados_para_view,$relatorio_csv)
   {
 
     $relatorio = new ConfiguraInscricaoPos();
 
     $relatorios_anteriores = $relatorio->retorna_lista_para_relatorio();
 
-    $monitoria = $id_inscricao_pos;
+    $monitoria = $id_inscricao_verao;
 
     return redirect()->back()->with(compact('monitoria','relatorios_anteriores','arquivos_zipados_para_view','relatorio_csv'));
   }
 
 
-  public function geraRelatoriosAnteriores($id_inscricao_pos)
+  public function geraRelatoriosAnteriores($id_inscricao_verao)
   {
 
     $locale_relatorio = 'pt-br';
 
-    $relatorio_disponivel = ConfiguraInscricaoPos::find($id_inscricao_pos);
+    $relatorio_disponivel = ConfiguraInscricaoPos::find($id_inscricao_verao);
 
     $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel['edital']);
 
@@ -718,7 +717,7 @@ class RelatorioController extends BaseController
 
 
     $finaliza = new FinalizaInscricao();
-    $usuarios_finalizados = $finaliza->retorna_usuarios_relatorios($id_inscricao_pos);
+    $usuarios_finalizados = $finaliza->retorna_usuarios_relatorios($id_inscricao_verao);
 
 
     foreach ($usuarios_finalizados as $candidato) {
@@ -743,27 +742,27 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos, $locale_relatorio) as $key => $value) {
+      foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao, $locale_relatorio) as $key => $value) {
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
       $linha_arquivo['programa_pretendido'] = $dados_candidato_para_relatorio['programa_pretendido'];
 
 
-      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos);
+      $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao);
 
       foreach ($contatos_indicados  as $id ) {
-        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_pos);
+        $recomendantes_candidato[$id->id_recomendante] = $this->ConsolidaCartaPorRecomendante($id->id_recomendante,$dados_candidato_para_relatorio['id_aluno'],$id_inscricao_verao);
       }
 
-      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos));
+      $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao));
 
       $nome_arquivos = $this->ConsolidaNomeArquivos($locais_arquivos['arquivos_temporarios'], $locais_arquivos['local_relatorios'], $dados_candidato_para_relatorio);
       
       $pdf = PDF::loadView('templates.partials.coordenador.pdf_relatorio', compact('dados_candidato_para_relatorio','recomendantes_candidato'));
       $pdf->save($nome_arquivos['arquivo_relatorio_candidato_temporario']);
 
-      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_pos);
+      $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_verao);
 
       $this->ConsolidaFichaRelatorio($nome_arquivos, $nome_uploads);
 
@@ -773,7 +772,7 @@ class RelatorioController extends BaseController
 
     $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio_disponivel->edital, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio_disponivel->programa);
 
-    return $this->getArquivosRelatoriosAnteriores($id_inscricao_pos,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
+    return $this->getArquivosRelatoriosAnteriores($id_inscricao_verao,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
   }
 
 
@@ -783,7 +782,7 @@ class RelatorioController extends BaseController
     return view('templates.partials.coordenador.relatorio_pos_edital_vigente');
   }
 
-  public function geraFichaInscricao($id_aluno, $id_inscricao_pos, $locale_relatorio)
+  public function geraFichaInscricao($id_aluno, $id_inscricao_verao, $locale_relatorio)
   {
 
     $endereco_mudar = '/var/www/posmat/storage/app/public/';
@@ -811,24 +810,24 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
     }
 
-    foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos, $locale_relatorio) as $key => $value) {
+    foreach ($this->ConsolidaEscolhaCandidato($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao, $locale_relatorio) as $key => $value) {
       $dados_candidato_para_relatorio[$key] = $value;
     }
 
 
-    $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos);
+    $contatos_indicados = $this->ConsolidaIndicaoes($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao);
 
 
-    $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_pos));
+    $dados_candidato_para_relatorio['motivacao'] = nl2br($this->ConsolidaCartaMotivacao($dados_candidato_para_relatorio['id_aluno'], $id_inscricao_verao));
 
-    $recomendantes_candidato = $this->ConsolidaNomeRecomendantes($contatos_indicados,$id_aluno,$id_inscricao_pos);
+    $recomendantes_candidato = $this->ConsolidaNomeRecomendantes($contatos_indicados,$id_aluno,$id_inscricao_verao);
 
     $nome_arquivos = $this->ConsolidaNomeArquivos($locais_arquivos['arquivos_temporarios'], $locais_arquivos['ficha_inscricao'], $dados_candidato_para_relatorio);
     
     $pdf = PDF::loadView('templates.partials.candidato.pdf_ficha_inscricao', compact('dados_candidato_para_relatorio','recomendantes_candidato'));
     $pdf->save($nome_arquivos['arquivo_relatorio_candidato_temporario']);
 
-    $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_pos);
+    $nome_uploads = $this->ConsolidaDocumentosPDF($dados_candidato_para_relatorio['id_aluno'], $locais_arquivos['local_documentos'], $id_inscricao_verao);
 
     $this->ConsolidaFichaRelatorio($nome_arquivos, $nome_uploads);
 
