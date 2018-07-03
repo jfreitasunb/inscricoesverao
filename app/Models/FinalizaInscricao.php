@@ -33,9 +33,9 @@ class FinalizaInscricao extends Model
         }
     }
 
-    public function retorna_inscricao_finalizada($id_candidato,$id_inscricao_pos)
+    public function retorna_inscricao_finalizada($id_candidato,$id_inscricao_verao)
     {
-        $finalizou_inscricao = $this->select('finalizada')->where("id_candidato", $id_candidato)->where("id_inscricao_pos", $id_inscricao_pos)->get();
+        $finalizou_inscricao = $this->select('finalizada')->where("id_candidato", $id_candidato)->where("id_inscricao_verao", $id_inscricao_verao)->get();
 
         if (count($finalizou_inscricao)>0 and $finalizou_inscricao[0]['finalizada']) {
         	return TRUE;

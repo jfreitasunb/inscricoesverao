@@ -146,13 +146,13 @@ class BladeServiceProvider extends ServiceProvider
 
             $edital_ativo = new ConfiguraInscricaoPos();
 
-            $id_inscricao_pos = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_pos;
-            $edital = $edital_ativo->retorna_inscricao_ativa()->edital;
+            $id_inscricao_verao = $edital_ativo->retorna_inscricao_ativa()->id_inscricao_verao;
+            // $edital = $edital_ativo->retorna_inscricao_ativa()->edital;
             $autoriza_inscricao = $edital_ativo->autoriza_inscricao();
 
             $finaliza_inscricao = new FinalizaInscricao();
 
-            $status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_user,$id_inscricao_pos);
+            $status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_user,$id_inscricao_verao);
 
             if ($autoriza_inscricao and !$status_inscricao) {
                 return true;
