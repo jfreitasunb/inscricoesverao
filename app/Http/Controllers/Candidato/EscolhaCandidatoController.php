@@ -163,13 +163,6 @@ class EscolhaCandidatoController extends BaseController
 			
 			return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','cursos_verao','dados','nome_coluna'));
 
-			if (in_array(3, $programas_disponiveis)) {
-			
-				$desativa_recomendante = true;
-
-				return view('templates.partials.candidato.escolha_candidato')->with(compact('disable','programa_para_inscricao','desativa_recomendante'));
-			}
-
 
 		}else{
 			
