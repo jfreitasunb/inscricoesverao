@@ -7,11 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class EscolhaCandidato extends Model
+class EscolhaCursoVerao extends Model
 {
     protected $primaryKey = 'id';
 
-    protected $table = 'escolhas_candidato';
+    protected $table = 'escolhas_curso_verao';
 
     protected $fillable = [
         'programa_pretendido',
@@ -28,12 +28,12 @@ class EscolhaCandidato extends Model
 
     public function usuarios_nao_finalizados($id_inscricao_verao)
     {
-        return $this->where('id_inscricao_verao', $id_inscricao_verao)->join('users', 'users.id_user', 'escolhas_candidato.id_candidato')->join('programa_pos_mat', 'programa_pos_mat.id_programa_pos', 'escolhas_candidato.programa_pretendido')->whereNotIn('escolhas_candidato.id_candidato', function($query) use ($id_inscricao_verao) {
+        return $this->where('id_inscricao_verao', $id_inscricao_verao)->join('users', 'users.id_user', 'escolhas_curso_verao.id_candidato')->join('programa_pos_mat', 'programa_pos_mat.id_programa_pos', 'escolhas_curso_verao.programa_pretendido')->whereNotIn('escolhas_curso_verao.id_candidato', function($query) use ($id_inscricao_verao) {
             $query->select('id_candidato')->from('finaliza_inscricao')->where('id_inscricao_verao', $id_inscricao_verao);
         } )->select('users.nome', 'programa_pos_mat.tipo_programa_pos_ptbr')->orderBy('programa_pos_mat.tipo_programa_pos_ptbr');
     }
 
-    public function grava_escolhas_candidato($id_candidato,$id_inscricao_verao,$request)
+    public function grava_escolhas_curso_verao($id_candidato,$id_inscricao_verao,$request)
     {
 
         $candidato_fez_escolhas = $this->retorna_escolha_candidato($id_candidato,$id_inscricao_verao);
@@ -50,19 +50,19 @@ class EscolhaCandidato extends Model
             $dados_escolhas['vinculo_empregaticio'] = (bool)$request->vinculo_empregaticio;
             $atualiza_escolhas->update($dados_escolhas);
         }else{
-            $escolhas_candidato = new EscolhaCandidato();
-            $escolhas_candidato->id_candidato = $id_candidato;
-            $escolhas_candidato->programa_pretendido = (int)$request->programa_pretendido;
+            $escolhas_curso_verao = new EscolhaCandidato();
+            $escolhas_curso_verao->id_candidato = $id_candidato;
+            $escolhas_curso_verao->programa_pretendido = (int)$request->programa_pretendido;
 
             if ($request->programa_pretendido == 1) {
-                $escolhas_candidato->area_pos = 10;
+                $escolhas_curso_verao->area_pos = 10;
             }else{
-                $escolhas_candidato->area_pos = (int)$request->areas_pos;
+                $escolhas_curso_verao->area_pos = (int)$request->areas_pos;
             }
-            $escolhas_candidato->interesse_bolsa = (bool)$request->interesse_bolsa;
-            $escolhas_candidato->vinculo_empregaticio = (bool)$request->vinculo_empregaticio;
-            $escolhas_candidato->id_inscricao_verao = $id_inscricao_verao;
-            $escolhas_candidato->save();
+            $escolhas_curso_verao->interesse_bolsa = (bool)$request->interesse_bolsa;
+            $escolhas_curso_verao->vinculo_empregaticio = (bool)$request->vinculo_empregaticio;
+            $escolhas_curso_verao->id_inscricao_verao = $id_inscricao_verao;
+            $escolhas_curso_verao->save();
         }
     }
 
