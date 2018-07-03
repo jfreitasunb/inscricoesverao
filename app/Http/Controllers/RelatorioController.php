@@ -12,6 +12,7 @@ use PDF;
 use Imagick;
 use Veraomat\Http\Controllers\FPDFController;
 use Carbon\Carbon;
+use Veraomat\Models\OfertaCursoVerao;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
 use Veraomat\Models\CursoVeraoMat;
@@ -190,13 +191,23 @@ class RelatorioController extends BaseController
 
     $programa_pos = new ProgramaPos();
 
+    $oferta = new OfertaCursoVerao();
+
     $escolha_feita_candidato = $escolha_candidato->retorna_escolha_candidato($id_candidato,$id_inscricao_verao);
 
     $consolida_escolha['curso_verao'] = null;
 
+    $consolida_escolha['programa_pretendido'] = $programa_pos->pega_programa_pos_mat($escolha_candidato->retorna_escolha_programa($id_candidato,$id_inscricao_verao)->programa_pretendido, $locale_relatorio);
+
     foreach ($escolha_feita_candidato as $escolha) {
-     $consolida_escolha['programa_pretendido'] = $programa_pos->pega_programa_pos_mat($escolha->programa_pretendido, $locale_relatorio);
-     $consolida_escolha['curso_verao'] .= $curso_verao->pega_area_pos_mat((int)$escolha->curso_verao, $locale_relatorio)."_";
+
+      if ($oferta->retorna_seleciona_pos($id_inscricao_verao, $escolha->curso_verao)) {
+        $selecao = " (Seleção para a Pós)";
+      }else{
+        $selecao = "";
+      }
+
+      $consolida_escolha['curso_verao'] .= $curso_verao->pega_area_pos_mat((int)$escolha->curso_verao, $locale_relatorio).$selecao."_";
     }
 
     return $consolida_escolha;
@@ -205,16 +216,12 @@ class RelatorioController extends BaseController
   public function ConsolidaNomeArquivos($local_arquivos_temporarios, $local_arquivos_definitivos, $dados_candidato_para_relatorio)
   {
     $nome_arquivos = [];
+    
+    $nome_arquivos['arquivo_relatorio_candidato_temporario'] = $local_arquivos_temporarios.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
+    
+    $nome_arquivos['arquivo_relatorio_candidato_final'] = $local_arquivos_definitivos.'Inscricao_'.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
 
-    if (is_null($dados_candidato_para_relatorio['curso_verao'])) {
-      $nome_arquivos['arquivo_relatorio_candidato_temporario'] = $local_arquivos_temporarios.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
-      $nome_arquivos['arquivo_relatorio_candidato_final'] = $local_arquivos_definitivos.'Inscricao_'.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
-      }else{
-        $nome_arquivos['arquivo_relatorio_candidato_temporario'] = $local_arquivos_temporarios.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['curso_verao'], $this->normalizeChars)).'_'.str_replace(' ', '-',strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
-        $nome_arquivos['arquivo_relatorio_candidato_final'] = $local_arquivos_definitivos.'Inscricao_'.str_replace('\'s','',str_replace(' ', '-', strtr($dados_candidato_para_relatorio['programa_pretendido'], $this->normalizeChars))).'_'.str_replace(' ', '-', strtr($dados_candidato_para_relatorio['curso_verao'], $this->normalizeChars)).'_'.str_replace(' ', '-',strtr($dados_candidato_para_relatorio['nome'], $this->normalizeChars)).'_'.$dados_candidato_para_relatorio['id_aluno'].'.pdf';
-      }
-
-      return $nome_arquivos;
+    return $nome_arquivos;
   }
 
   public function ConsolidaDocumentosPDF($id_candidato, $local_documentos, $id_inscricao_verao)
