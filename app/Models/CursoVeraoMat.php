@@ -27,6 +27,11 @@ class CursoVeraoMat extends Model
         'nome_es',
     ];
 
+    public function retorna_cursos_de_verao()
+    {
+        return $this->where('id_curso_verao','>', 1)->orderBy('id_curso_verao')->get();
+    }
+
     public function define_nome_coluna_por_locale($locale)
     {
         switch ($locale) {
