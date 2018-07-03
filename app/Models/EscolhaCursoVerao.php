@@ -15,9 +15,7 @@ class EscolhaCursoVerao extends Model
 
     protected $fillable = [
         'programa_pretendido',
-        'area_pos',
-        'interesse_bolsa',
-        'vinculo_empregaticio',
+        'curso_verao',
         'id_inscricao_verao',
     ];
 
@@ -33,34 +31,21 @@ class EscolhaCursoVerao extends Model
         } )->select('users.nome', 'programa_pos_mat.tipo_programa_pos_ptbr')->orderBy('programa_pos_mat.tipo_programa_pos_ptbr');
     }
 
-    public function grava_escolhas_curso_verao($id_candidato,$id_inscricao_verao,$request)
+    public function grava_escolhas_curso_verao($id_candidato, $id_inscricao_verao, $programa_pretendido, $escolhido)
     {
 
         $candidato_fez_escolhas = $this->retorna_escolha_candidato($id_candidato,$id_inscricao_verao);
 
         if (!is_null($candidato_fez_escolhas)) {
             $atualiza_escolhas = $this->where('id_candidato', $id_candidato)->where('id_inscricao_verao',$id_inscricao_verao);
-            $dados_escolhas['programa_pretendido'] = (int)$request->programa_pretendido;
-            if ($request->programa_pretendido == 1) {
-                $dados_escolhas['area_pos'] = 10;
-            }else{
-                $dados_escolhas['area_pos'] = (int)$request->area_pos;
-            }
-            $dados_escolhas['interesse_bolsa'] = (bool)$request->interesse_bolsa;
-            $dados_escolhas['vinculo_empregaticio'] = (bool)$request->vinculo_empregaticio;
+            $dados_escolhas['programa_pretendido'] = $programa_pretendido;
+            $dados_escolhas['curso_verao'] = $escolhido;
             $atualiza_escolhas->update($dados_escolhas);
         }else{
-            $escolhas_curso_verao = new EscolhaCandidato();
+            $escolhas_curso_verao = new EscolhaCursoVerao();
             $escolhas_curso_verao->id_candidato = $id_candidato;
-            $escolhas_curso_verao->programa_pretendido = (int)$request->programa_pretendido;
-
-            if ($request->programa_pretendido == 1) {
-                $escolhas_curso_verao->area_pos = 10;
-            }else{
-                $escolhas_curso_verao->area_pos = (int)$request->areas_pos;
-            }
-            $escolhas_curso_verao->interesse_bolsa = (bool)$request->interesse_bolsa;
-            $escolhas_curso_verao->vinculo_empregaticio = (bool)$request->vinculo_empregaticio;
+            $escolhas_curso_verao->programa_pretendido = $programa_pretendido;
+            $escolhas_curso_verao->curso_verao = $escolhido;
             $escolhas_curso_verao->id_inscricao_verao = $id_inscricao_verao;
             $escolhas_curso_verao->save();
         }
