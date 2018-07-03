@@ -16,9 +16,9 @@ class OfertaCursoVerao extends Model
 
     protected $table = 'oferta_curso_verao';
 
-    public function define_nome_coluna_por_locale($locale)
+    public function define_nome_coluna_por_locale($locale_candidato)
     {
-        switch ($locale) {
+        switch ($locale_candidato) {
             case 'en':
                 return 'nome_en';
                 break;
@@ -31,6 +31,13 @@ class OfertaCursoVerao extends Model
                 return 'nome_ptbr';
                 break;
         }
+    }
+
+    public function retorna_cursos_ofertados($id_inscricao_verao, $locale_candidato)
+    {
+        $nome_coluna = $this->define_nome_coluna_por_locale($locale_candidato);
+
+        return $this->where('id_inscricao_verao', $id_inscricao_verao)->join('curso_verao_mat','curso_verao_mat.id_curso_verao', 'oferta_curso_verao.id_curso_verao')->select('oferta_curso_verao.id_curso_verao', 'curso_verao_mat.'.$nome_coluna, 'oferta_curso_verao.seleciona_pos')->get()->all();
     }
 
 }
