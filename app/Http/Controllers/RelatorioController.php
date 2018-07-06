@@ -56,7 +56,7 @@ class RelatorioController extends BaseController
   public function ContaInscricoes($id_inscricao_verao, $programa)
   {
      
-    return DB::table('escolhas_curso_verao')->where('escolhas_curso_verao.id_inscricao_verao', $id_inscricao_verao)->where('escolhas_curso_verao.programa_pretendido', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_curso_verao.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_verao', $id_inscricao_verao)->count();
+    return DB::table('escolhas_curso_verao')->where('escolhas_curso_verao.id_inscricao_verao', $id_inscricao_verao)->where('escolhas_curso_verao.curso_verao', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_curso_verao.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_verao', $id_inscricao_verao)->count();
 
   }
 
@@ -319,22 +319,19 @@ class RelatorioController extends BaseController
 
     $relatorio_disponivel = $relatorio->retorna_edital_vigente();
 
+    $oferta_verao = new OfertaCursoVerao();
 
-    $programas_disponiveis = explode("_", $relatorio->retorna_inscricao_ativa()->programa);
+    $cursos_ofertados = $oferta_verao->retorna_cursos_ofertados($relatorio_disponivel->id_inscricao_verao, $locale_relatorio);
 
-    $nome_programa_pos = new ProgramaPos();
-
-    foreach ($programas_disponiveis as $programa) {
-
-      $programa_para_inscricao[$programa] = $nome_programa_pos->pega_programa_pos_mat($programa, $locale_relatorio);
+    foreach ($cursos_ofertados as $curso) {
       
-      $contagem[$programa_para_inscricao[$programa]] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_verao, $programa);
+      $contagem[$curso->id_curso_verao] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_verao, $curso->id_curso_verao);
 
     }
 
     $total_inscritos = array_sum($contagem);
 
-    $nome_programas = implode('/', $programa_para_inscricao);
+    // $nome_programas = implode('/', $programa_para_inscricao);
 
     $arquivos_zipados_para_view = "";
 
@@ -344,7 +341,7 @@ class RelatorioController extends BaseController
 
     $monitoria = "";
 
-    return view('templates.partials.coordenador.relatorio_pos_edital_vigente')->with(compact('monitoria','relatorio_disponivel', 'nome_programas', 'programa_para_inscricao', 'total_inscritos', 'contagem', 'arquivos_zipados_para_view','relatorio_csv'));
+    return view('templates.partials.coordenador.relatorio_pos_edital_vigente')->with(compact('monitoria','relatorio_disponivel', 'cursos_ofertados', 'total_inscritos', 'contagem', 'arquivos_zipados_para_view','relatorio_csv'));
   }
 
    public function getListaRelatoriosAnteriores()
