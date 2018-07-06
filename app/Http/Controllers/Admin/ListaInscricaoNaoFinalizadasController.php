@@ -34,7 +34,7 @@ class ListaInscricaoNaoFinalizadasController extends AdminController
 
 		$tipo_programa_pos = new EscolhaCursoVerao;
 
-		$inscricoes_nao_finalizadas = $tipo_programa_pos->usuarios_nao_finalizados($relatorio_disponivel->id_inscricao_pos)->paginate(10);
+		$inscricoes_nao_finalizadas = $tipo_programa_pos->usuarios_nao_finalizados($relatorio_disponivel->id_inscricao_verao)->paginate(10);
 
 		return view('templates.partials.admin.nao_finalizadas')->with(compact('inscricoes_nao_finalizadas'));
 	}
