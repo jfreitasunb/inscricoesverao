@@ -8,7 +8,7 @@ use Mail;
 use Session;
 use Notification;
 use Carbon\Carbon;
-use Veraomat\Models\{User, ConfiguraInscricaoPos, AreaPosMat, ProgramaPos, RelatorioController, FinalizaInscricao,  DadoPessoalCandidato, EscolhaCandidato};
+use Veraomat\Models\{User, ConfiguraInscricaoPos, AreaPosMat, ProgramaPos, RelatorioController, FinalizaInscricao,  DadoPessoalCandidato, EscolhaCursoVerao};
 use Illuminate\Http\Request;
 use Veraomat\Mail\EmailVerification;
 use Veraomat\Http\Controllers\Controller;
@@ -32,7 +32,7 @@ class ListaInscricaoNaoFinalizadasController extends AdminController
 
       	$relatorio_disponivel = $relatorio->retorna_edital_vigente();
 
-		$tipo_programa_pos = new EscolhaCandidato;
+		$tipo_programa_pos = new EscolhaCursoVerao;
 
 		$inscricoes_nao_finalizadas = $tipo_programa_pos->usuarios_nao_finalizados($relatorio_disponivel->id_inscricao_pos)->paginate(10);
 
