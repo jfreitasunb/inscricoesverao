@@ -31,16 +31,6 @@
                                     <span class="glyphicon glyphicon-cog fa-fw"></span><a href="{{ route('lista.inativos') }}">Usuários Inativos</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('associa.recomendantes') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-list fa-fw"></span><a href="{{ route('associa.recomendantes') }}">Associa email de recomendante</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('visualiza.associacoes') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-list fa-fw"></span><a href="{{ route('visualiza.associacoes') }}">Associações existentes</a>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                     </div>
