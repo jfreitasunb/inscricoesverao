@@ -21,15 +21,9 @@
 </div>
 @if (!$modo_pesquisa)
 	{!! Form::hidden('id', $finalizou->id, []) !!}
-	{!! Form::hidden('id_inscricao_pos', $finalizou->id_inscricao_pos, []) !!}
-	{!! Form::hidden('id_user', $finalizou->id_user, []) !!}
+	{!! Form::hidden('id_inscricao_verao', $finalizou->id_inscricao_verao, []) !!}
+	{!! Form::hidden('id_candidato', $finalizou->id_candidato, []) !!}
 	{!! Form::hidden('email_candidato', $email_candidato, []) !!}
-	 <div class="form-group">
-	{!! Form::label('edital', 'Edital', ['class' => 'col-md-4 control-label']) !!}
-	<div class="col-md-4">
-		{!! Form::text('edital', $finalizou->edital, ['class' => 'form-control input-md']) !!}
-	</div>
-	</div>
 	<div class="form-group">
 		{!! Form::label('nome', 'Nome do candidato', ['class' => 'col-md-4 control-label']) !!}
 		<div class="col-md-4">
@@ -40,12 +34,6 @@
 		{!! Form::label('tipo_programa_pos', 'Inscreveu para:', ['class' => 'col-md-4 control-label']) !!}
 		<div class="col-md-4">
 			{!! Form::text('tipo_programa_pos', $finalizou->tipo_programa_pos_ptbr, ['class' => 'form-control input-md']) !!}
-		</div>
-	</div>
-	<div class="form-group">
-		{!! Form::label('edital', 'Edital', ['class' => 'col-md-4 control-label']) !!}
-		<div class="col-md-4">
-			{!! Form::text('edital', $finalizou->edital, ['class' => 'form-control input-md']) !!}
 		</div>
 	</div>
 	<div class="form-group">
