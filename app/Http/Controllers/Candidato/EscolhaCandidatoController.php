@@ -76,6 +76,7 @@ class EscolhaCandidatoController extends BaseController
 				$programa_para_inscricao[$programa] = $nome_programa_pos->pega_programa_pos_mat($programa, $locale_candidato);
 			}
 
+
 			$finaliza_inscricao = new FinalizaInscricao();
 
 			$status_inscricao = $finaliza_inscricao->retorna_inscricao_finalizada($id_user,$id_inscricao_verao);
@@ -95,7 +96,7 @@ class EscolhaCandidatoController extends BaseController
 
 			$candidato_ja_escolheu = $escolha_candidato->retorna_escolha_candidato($id_user, $id_inscricao_verao);
 
-			if (!is_null($candidato_ja_escolheu)) {
+			if (is_null($candidato_ja_escolheu)) {
 
 				$dados['programa_pretendido'] = $candidato_ja_escolheu->programa_pretendido;
 				$dados['curso_verao'] = $candidato_ja_escolheu->area_pos;
