@@ -22,7 +22,6 @@ use Veraomat\Models\Paises;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\Estado;
 use Veraomat\Models\Cidade;
-use Veraomat\Models\DadoPessoalRecomendante;
 use Veraomat\Models\DadoAcademicoCandidato;
 use Veraomat\Models\Documento;
 use Veraomat\Models\EscolhaCursoVerao;
@@ -57,7 +56,7 @@ class RelatorioController extends BaseController
   public function ContaInscricoes($id_inscricao_verao, $programa)
   {
      
-    return DB::table('escolhas_candidato')->where('escolhas_candidato.id_inscricao_verao', $id_inscricao_verao)->where('escolhas_candidato.programa_pretendido', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_candidato.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_verao', $id_inscricao_verao)->count();
+    return DB::table('escolhas_curso_verao')->where('escolhas_curso_verao.id_inscricao_verao', $id_inscricao_verao)->where('escolhas_curso_verao.programa_pretendido', $programa)->join('finaliza_inscricao', 'finaliza_inscricao.id_candidato', 'escolhas_curso_verao.id_candidato')->where('finaliza_inscricao.finalizada', true)->where('finaliza_inscricao.id_inscricao_verao', $id_inscricao_verao)->count();
 
   }
 

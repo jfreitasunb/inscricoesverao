@@ -12,8 +12,6 @@ use Notification;
 use Carbon\Carbon;
 use Veraomat\Models\User;
 use Veraomat\Models\ConfiguraInscricaoPos;
-use Veraomat\Models\AreaPosMat;
-use Veraomat\Models\CartaRecomendacao;
 use Veraomat\Models\Formacao;
 use Veraomat\Models\ProgramaPos;
 use Veraomat\Models\FinalizaInscricao;
@@ -51,7 +49,7 @@ class RelatorioPosController extends CoordenadorController
 
 		$finalizacoes = new FinalizaInscricao;
 
-		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_pos)->paginate(10);
+		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_verao)->paginate(10);
 
 
 		return view('templates.partials.coordenador.ficha_individual', compact('inscricoes_finalizadas', 'nome_pdf', 'id_aluno_pdf'));
@@ -83,14 +81,14 @@ class RelatorioPosController extends CoordenadorController
 		}
 		
 
-		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_pos, $this->locale_default)->paginate(10);
+		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_verao, $this->locale_default)->paginate(10);
 
 
 		foreach ($inscricoes_finalizadas as $candidato ) {
 
 			$cartas = new CartaRecomendacao();
 
-			$total_cartas[$candidato->id_candidato]=  $cartas->conta_cartas_enviadas_por_candidato($candidato->id_inscricao_pos, $candidato->id_candidato);
+			$total_cartas[$candidato->id_candidato]=  $cartas->conta_cartas_enviadas_por_candidato($candidato->id_inscricao_verao, $candidato->id_candidato);
 		}
 
 		$classes_linhas[0] = 'danger';
@@ -110,7 +108,7 @@ class RelatorioPosController extends CoordenadorController
 		$user = Auth::user();
 		
 
-		$id_inscricao_pos = (int) $_GET['id_inscricao_pos'];
+		$id_inscricao_verao = (int) $_GET['id_inscricao_verao'];
 		
 		$id_aluno_pdf = (int) $_GET['id_aluno'];
 
