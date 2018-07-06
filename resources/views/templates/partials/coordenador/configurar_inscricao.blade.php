@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <legend>Escolher os programas para Inscrição:</legend>
+        {{-- <legend>Escolher os programas para Inscrição:</legend>
           @foreach($programas_pos_mat as $programa)
             <div class="col-xs-6">
               <div class="form-group form-inline">
@@ -43,7 +43,7 @@
                 </label> 
               </div>
             </div>
-          @endforeach
+          @endforeach --}}
 
         <legend>Escolher os cursos do Verão:</legend>
           <div class="table-responsive">
