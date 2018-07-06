@@ -159,7 +159,8 @@ class EscolhaCandidatoController extends BaseController
 			$programas_disponiveis = explode("_", $edital_ativo->retorna_inscricao_ativa()->programa);
 
 			$this->validate($request, [
-				'programa_pretendido' => 'required',
+				'historico' => 'required|max:20000',
+				'curso_desejado' => 'required',
 			]);
 
 			$programa_pretendido = 2;
@@ -184,10 +185,18 @@ class EscolhaCandidatoController extends BaseController
             		$escolhas_curso_verao->save();
 				}
 			}
+
+			$hist = $request->historico->store('uploads');
+			$arquivo = new Documento();
+			$arquivo->id_candidato = $id_candidato;
+			$arquivo->nome_arquivo = $hist;
+			$arquivo->tipo_arquivo = "Histórico";
+			$arquivo->id_inscricao_verao = $id_inscricao_verao;
+			$arquivo->save();
 			
 			notify()->flash(trans('mensagens_gerais.mensagem_sucesso'),'success');
 			
-			return redirect()->route('motivacao.documentos');
+			return redirect()->route('finalizar.inscricao');
 		}else{
 			notify()->flash(trans('mensagens_gerais.inscricao_inativa'),'warning');
 			
