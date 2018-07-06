@@ -61,7 +61,7 @@ class ReativarInscricaoCandidatoController extends AdminController
 
 		$finaliza_inscricao = new FinalizaInscricao;
 
-		$finalizou = $finaliza_inscricao->retorna_usuario_inscricao_finalizada($edital_vigente->id_inscricao_pos, $id_user, $this->locale_default);
+		$finalizou = $finaliza_inscricao->retorna_usuario_inscricao_finalizada($edital_vigente->id_inscricao_verao, $id_user, $this->locale_default);
 
 		if (!is_null($finalizou)) {
 			
