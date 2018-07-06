@@ -87,19 +87,22 @@ class ReativarInscricaoCandidatoController extends AdminController
 		]);
 
 		$id = (int)$request->id;
-		$id_inscricao_pos = (int)$request->id_inscricao_pos;
-		$id_user = (int)$request->id_user;
+		$id_inscricao_verao = (int)$request->id_inscricao_verao;
+		$id_candidato = (int)$request->id_candidato;
 		$email_candidato = $request->email_candidato;
-
 
 		$finalizada = (strtolower(trim($request->finalizada)) == 'sim' ? 1 : 0);
 
 		if (!$finalizada) {
 			$inscricao_finalizada = new FinalizaInscricao;
 
-			DB::table('finaliza_inscricao')->where('id', $id)->where('id_candidato', $id_candidato)->where('id_inscricao_pos', $id_inscricao_pos)->update(['finalizada' => 'false', 'updated_at' => date('Y-m-d H:i:s') ]);
-
-			notify()->flash('A inscrição do candidato com e-mail: '.$email_candidato.' foi reativada com sucesso!','success');
+			$resultado = DB::table('finaliza_inscricao')->where('id', $id)->where('id_candidato', $id_candidato)->where('id_inscricao_verao', $id_inscricao_verao)->update(['finalizada' => 'false', 'updated_at' => date('Y-m-d H:i:s') ]);
+			if ($resultado) {
+				notify()->flash('A inscrição do candidato com e-mail: '.$email_candidato.' foi reativada com sucesso!','success');
+			}else{
+				notify()->flash('A inscrição do candidato com e-mail: '.$email_candidato.' foi reativada com sucesso!','error');
+			}
+			
 
 			return redirect()->route('reativar.candidato');
 		}else{
