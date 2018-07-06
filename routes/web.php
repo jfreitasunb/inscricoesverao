@@ -113,12 +113,6 @@ Route::prefix('admin')->middleware('user.role:admin', 'impersonate.user')->group
 
 	Route::post('contas/lista/inativos', '\Veraomat\Http\Controllers\Admin\ListaInativosController@postListaInativos')->name('lista.inativos');
 
-	Route::get('contas/associa/email/recomendante', '\Veraomat\Http\Controllers\Admin\AssociaEmailController@getAssociaEmail')->name('associa.recomendantes');
-
-	Route::post('contas/associa/email/recomendante', '\Veraomat\Http\Controllers\Admin\AssociaEmailController@postAssociaEmail')->name('associa.recomendantes');
-
-	Route::get('contas/visualiza/associacoes', '\Veraomat\Http\Controllers\Admin\VisualizaAssociacoesController@getAssociacoes')->name('visualiza.associacoes');
-
 	Route::get('inscricao/editar', '\Veraomat\Http\Controllers\Admin\EditarInscricaoController@getEditarInscricao')->name('editar.inscricao');
 
 	Route::post('inscricao/editar', '\Veraomat\Http\Controllers\Admin\EditarInscricaoController@postEditarInscricao');
