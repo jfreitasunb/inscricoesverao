@@ -71,21 +71,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class= "{{ Route::currentRouteNamed('pesquisa.recomendantes') ? 'active_link' : '' }}">
-                                        <span class="glyphicon glyphicon-random fa-fw"></span><a href="{{ route('pesquisa.recomendantes') }}">Mudar Recomendante</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class= "{{ Route::currentRouteNamed('pesquisa.indicacoes') ? 'active_link' : '' }}">
-                                        <span class="glyphicon glyphicon-list fa-fw"></span><a href="{{ route('pesquisa.indicacoes') }}">Lista indicações</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class= "{{ Route::currentRouteNamed('lista.recomendacoes') ? 'active_link' : '' }}">
-                                        <span class="glyphicon glyphicon-list fa-fw"></span><a href="{{ route('lista.recomendacoes') }}">Lista as indicações por candidato</a>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td class= "{{ Route::currentRouteNamed('inscricoes.nao.finalizadas') ? 'active_link' : '' }}">
                                         <span class="glyphicon glyphicon-list fa-fw"></span><a href="{{ route('inscricoes.nao.finalizadas') }}">Inscrições Não Finalizadas</a>
                                     </td>

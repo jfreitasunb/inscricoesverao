@@ -131,16 +131,6 @@ Route::prefix('admin')->middleware('user.role:admin', 'impersonate.user')->group
 
 	Route::post('inscricao/salvar/alteracao', '\Veraomat\Http\Controllers\Admin\ReativarInscricaoCandidatoController@postReativarInscricaoCandidato')->name('salvar.alteracao');
 
-	Route::get('inscricao/pesquisa/recomendantes', '\Veraomat\Http\Controllers\Admin\MudaRecomendanteController@getPesquisarRecomendantes')->name('pesquisa.recomendantes');
-
-	Route::post('inscricao/pesquisa/recomendantes', '\Veraomat\Http\Controllers\Admin\MudaRecomendanteController@postPesquisarRecomendantes')->name('pesquisa.recomendantes');
-
-	Route::post('inscricao/altera/recomendante','\Veraomat\Http\Controllers\Admin\MudaRecomendanteController@postAlteraRecomendante')->name('altera.recomendante');
-
-	Route::get('inscricao/acha/indicacoes', '\Veraomat\Http\Controllers\Admin\ListaQuemIndicouController@getAchaIndicacoes')->name('pesquisa.indicacoes');
-
-	Route::post('inscricao/acha/indicacoes', '\Veraomat\Http\Controllers\Admin\ListaQuemIndicouController@postAchaIndicacoes')->name('pesquisa.indicacoes');
-
 	Route::get('chart', '\Veraomat\Http\Controllers\GraficosController@index')->name('ver.charts');
 
 	Route::get('inscricoes/nao/finalizadas', '\Veraomat\Http\Controllers\Admin\ListaInscricaoNaoFinalizadasController@getInscricoesNaoFinalizadas')->name('inscricoes.nao.finalizadas');
