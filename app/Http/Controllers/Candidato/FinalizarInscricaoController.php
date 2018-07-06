@@ -116,9 +116,9 @@ class FinalizarInscricaoController extends BaseController
 
 			$enviou_historico = $documentos->retorna_historico($id_candidato, $id_inscricao_verao);
 
-			$enviou_documentos = $documentos->retorna_documento($id_candidato, $id_inscricao_verao);
+			// $enviou_documentos = $documentos->retorna_documento($id_candidato, $id_inscricao_verao);
 
-			if (is_null($enviou_historico) or is_null($enviou_documentos)) {
+			if (is_null($enviou_historico)) {
 				
 				notify()->flash(trans('tela_finalizar_inscricao.falta_documentos'),'warning');
 
