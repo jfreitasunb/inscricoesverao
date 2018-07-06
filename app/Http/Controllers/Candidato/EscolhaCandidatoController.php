@@ -162,7 +162,7 @@ class EscolhaCandidatoController extends BaseController
 				'programa_pretendido' => 'required',
 			]);
 
-			$programa_pretendido = (int)$request->programa_pretendido;
+			$programa_pretendido = 2;
 			
 			if (is_null($request->curso_desejado) and ($request->programa_pretendido === '2')) {
 				
