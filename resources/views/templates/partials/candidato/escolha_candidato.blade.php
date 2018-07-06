@@ -13,7 +13,7 @@
 </fieldset>
 
 {!! Form::open(array('route' => 'dados.escolhas', 'class' => 'form-horizontal', 'data-parsley-validate' => '' )) !!}
-    <fieldset class="scheduler-border">
+    {{-- <fieldset class="scheduler-border">
       <legend class="scheduler-border">{{trans('tela_escolha_candidato.programa_disponivel')}}</legend>
         <div class="row">
           @foreach($programa_para_inscricao as $programa => $key)
@@ -22,7 +22,7 @@
             </div>
           @endforeach
         </div>
-    </fieldset>
+    </fieldset> --}}
 
     @if(isset($cursos_verao))
       <fieldset class="scheduler-border">
