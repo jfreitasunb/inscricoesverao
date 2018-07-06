@@ -27,7 +27,7 @@
           @yield('dados_pessoais')
           @yield('dados_academicos')
           @yield('escolha_monitoria')
-          @yield('motivacao_documentos')
+          {{-- @yield('motivacao_documentos') --}}
           @yield('finaliza_inscricao')
           @yield('status_cartas')
         @endcandidato
