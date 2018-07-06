@@ -37,13 +37,13 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 
 		$inscricao_pos = new ConfiguraInscricaoPos();
 
-		$programas_pos_mat = ProgramaPos::get()->all();
+		// $programas_pos_mat = ProgramaPos::get()->all();
 
         $cursos = new CursoVeraoMat();
 
         $cursos_verao_mat = $cursos->retorna_cursos_de_verao();
 
-		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('programas_pos_mat', 'cursos_verao_mat'));
+		return view('templates.partials.coordenador.configurar_inscricao')->with(compact('cursos_verao_mat'));
 	}
 
 	public function postConfiguraInscricaoPos(Request $request)
@@ -51,12 +51,9 @@ class ConfiguraInscricaoPosController extends CoordenadorController
 		$this->validate($request, [
 			'inicio_inscricao' => 'required|date_format:"d/m/Y"|before:fim_inscricao|after:today',
 			'fim_inscricao' => 'required|date_format:"d/m/Y"|after:inicio_inscricao|after:today',
-			'escolhas_coordenador' => 'required',
 		]);
 
-        $escolhas_coordenador = $request->escolhas_coordenador;
-
-        if (is_null($request->curso_verao) and (in_array(2, $escolhas_coordenador))) {
+        if (is_null($request->curso_verao)) {
                     
             notify()->flash(trans('Você deve selecionar as disciplinas do Verão.'),'warning');
 
@@ -80,7 +77,8 @@ class ConfiguraInscricaoPosController extends CoordenadorController
     		$configura_nova_inscricao_pos->inicio_inscricao = $data_inicio;
 			$configura_nova_inscricao_pos->fim_inscricao = $data_fim;
             $configura_nova_inscricao_pos->ano_evento = $ano_evento;
-			$configura_nova_inscricao_pos->tipo_evento = implode("_", $request->escolhas_coordenador);
+            $configura_nova_inscricao_pos->tipo_evento = 2;
+			// $configura_nova_inscricao_pos->tipo_evento = implode("_", $request->escolhas_coordenador);
 			$configura_nova_inscricao_pos->id_coordenador = $user->id_user;
 			
             $configura_nova_inscricao_pos->save();
