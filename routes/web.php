@@ -54,37 +54,6 @@ Route::prefix('candidato')->middleware('user.role:candidato,admin','define.local
 });
 
 
-
-/*
-*Área do Recomendante
-*/
-Route::prefix('recomendante')->middleware('user.role:recomendante,admin','define.locale')->group(function () {
-
-	Route::get('/', '\Veraomat\Http\Controllers\Recomendante\RecomendanteController@getMenu')->name('menu.recomendante');
-
-	Route::get('dados/pessoais', '\Veraomat\Http\Controllers\Recomendante\DadosPessoaisRecomendanteController@getDadosPessoaisRecomendante')->name('dados.recomendante');
-
-	Route::get('dados/pessoais/editar', '\Veraomat\Http\Controllers\Recomendante\DadosPessoaisRecomendanteController@getDadosPessoaisRecomendanteEditar')->name('dados.recomendante.editar');
-
-	Route::post('dados/pessoais', '\Veraomat\Http\Controllers\Recomendante\DadosPessoaisRecomendanteController@postDadosPessoaisRecomendante')->name('dados.recomendante.salvar');
-
-	Route::get('cartas/pendentes', '\Veraomat\Http\Controllers\Recomendante\CartasPendentesController@getCartasPendentes')->name('cartas.pendentes');
-
-	Route::post('cartas/pendentes', '\Veraomat\Http\Controllers\Recomendante\CartasPendentes\PreencherCartaController@postCartasPendentes');
-
-	Route::post('carta/inicial', '\Veraomat\Http\Controllers\Recomendante\PreencherCartaController@postCartaInicial')->name('carta.inicial');
-
-	Route::post('salva/carta/inicial', '\Veraomat\Http\Controllers\Recomendante\PreencherCartaController@postPreencherCarta')->name('salva.carta.inicial');
-
-	Route::get('preencher/carta/final', '\Veraomat\Http\Controllers\Recomendante\PreencherCartaController@getFinalizarCarta')->name('finalizar.carta');
-
-	Route::post('preencher/carta/final', '\Veraomat\Http\Controllers\Recomendante\PreencherCartaController@postFinalizarCarta')->name('finalizar.carta');
-
-	Route::get('cartas/anteriores', '\Veraomat\Http\Controllers\Recomendante\CartasAnterioresController@getCartasAnteriores')->name('cartas.anteriores');
-
-	Route::get('visualiza/anteriores', '\Veraomat\Http\Controllers\Recomendante\CartasAnterioresController@GeraCartasAnteriores')->name('ver.anterior');
-});
-
 /*
 *Área do Admin
  */
