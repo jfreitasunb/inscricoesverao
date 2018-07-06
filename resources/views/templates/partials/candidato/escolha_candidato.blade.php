@@ -12,7 +12,7 @@
     </div>
 </fieldset>
 
-{!! Form::open(array('route' => 'dados.escolhas', 'class' => 'form-horizontal', 'data-parsley-validate' => '' )) !!}
+{!! Form::open(array('route' => 'dados.escolhas', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'data-parsley-validate' => '' )) !!}
     {{-- <fieldset class="scheduler-border">
       <legend class="scheduler-border">{{trans('tela_escolha_candidato.programa_disponivel')}}</legend>
         <div class="row">
@@ -36,6 +36,27 @@
           </div>
       </fieldset>
     @endif
+
+    <fieldset class="scheduler-border">
+        <legend class="scheduler-border">{{ trans('tela_motivacao_documentos.historico') }}</legend>
+        <div class="form-horizontal"{{ $errors->has('historico') ? ' has-error' : '' }}>
+          <div class="row">
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-primary" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Clear
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-primary">
+                    <input type="file" accept="application/pdf, image/png, image/jpeg, image/jpg, image/gif" name="historico" required=""/> <!-- rename it -->
+                </div>
+            </span>
+          </div>
+           @if ($errors->has('historico'))
+            <span class="help-block">{{ $errors->first('historico') }}</span>
+          @endif
+        </div>
+    </fieldset>
   
     <div class="form-group">
       <div class="row">
