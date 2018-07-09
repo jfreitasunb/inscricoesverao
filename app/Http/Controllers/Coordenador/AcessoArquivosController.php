@@ -47,7 +47,7 @@ class AcessoArquivosController extends CoordenadorController
 
       	$endereco_zip_mudar = '/var/www/posmat/storage/app/public/';
 
-		$local_arquivos = $arquivos->ConsolidaLocaisArquivos($relatorio_disponivel->edital);
+		$local_arquivos = $arquivos->ConsolidaLocaisArquivos($relatorio_disponivel->ano_evento);
 
 		$local_arquivos_pdf = str_replace($endereco_zip_mudar, '/storage/', $local_arquivos['local_relatorios']);
 
