@@ -110,6 +110,10 @@ class BladeServiceProvider extends ServiceProvider
                 return false;
             }
 
+            View::share('keep_open_accordion_inscricoes', $this->ativa_accordion_inscricoes());
+
+            View::share('keep_open_accordion_relatorios', $this->ativa_accordion_relatorios());
+            
             return $user->isCoordenador();
         });
 
