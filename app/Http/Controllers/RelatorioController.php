@@ -197,7 +197,6 @@ class RelatorioController extends BaseController
     $consolida_escolha['curso_verao'] = null;
 
     $consolida_escolha['programa_pretendido'] = $programa_pos->pega_programa_pos_mat($escolha_candidato->retorna_escolha_programa($id_candidato,$id_inscricao_verao)->programa_pretendido, $locale_relatorio);
-
     foreach ($escolha_feita_candidato as $escolha) {
 
       if ($oferta->retorna_seleciona_pos($id_inscricao_verao, $escolha->curso_verao)) {
@@ -283,30 +282,25 @@ class RelatorioController extends BaseController
   {
     $locale_relatorio = 'pt-br';
 
-    $programas_disponiveis = explode("_", $programas);
-
     $nome_programa_pos = new ProgramaPos();
 
-    foreach ($programas_disponiveis as $programa) {
-       $programa_para_relatorio[$programa] = $nome_programa_pos->pega_programa_pos_mat($programa, $locale_relatorio);
+    $programa_para_relatorio = $nome_programa_pos->pega_programa_pos_mat($programas, $locale_relatorio);
+
+    
+    $inscricoes_zipadas = 'Inscricoes_'.$programa_para_relatorio.'.zip';
+    $arquivos_zipados_para_view[$programas] = $inscricoes_zipadas;
+
+    $zip = new ZipArchive;
+
+    if ( $zip->open( $arquivo_zip.$inscricoes_zipadas, ZipArchive::CREATE ) === true ){
+
+     foreach (glob( $local_relatorios.'Inscricao_'.$programa_para_relatorio.'*') as $fileName ){
+        $file = basename( $fileName );
+        $zip->addFile( $fileName, $file );
+     }
+     $zip->close();
     }
-
-    foreach ($programa_para_relatorio as $nome_programa) {
-      $inscricoes_zipadas = 'Inscricoes_'.$nome_programa.'_Edital_'.$edital.'.zip';
-      $arquivos_zipados_para_view[$nome_programa] = $inscricoes_zipadas;
-
-      $zip = new ZipArchive;
-
-      if ( $zip->open( $arquivo_zip.$inscricoes_zipadas, ZipArchive::CREATE ) === true ){
-
-       foreach (glob( $local_relatorios.'Inscricao_'.$nome_programa.'*') as $fileName ){
-          $file = basename( $fileName );
-          $zip->addFile( $fileName, $file );
-       }
-       $zip->close();
-      }
-    }
-
+    
     return $arquivos_zipados_para_view;
   }
 
@@ -372,7 +366,17 @@ class RelatorioController extends BaseController
 
   $relatorio_disponivel = $relatorio->retorna_edital_vigente();
 
-  $programas_disponiveis = explode("_", $relatorio->retorna_inscricao_ativa()->programa);
+  $programas_disponiveis = explode("_", $relatorio->retorna_inscricao_ativa()->tipo_evento);
+
+  $oferta_verao = new OfertaCursoVerao();
+
+    $cursos_ofertados = $oferta_verao->retorna_cursos_ofertados($relatorio_disponivel->id_inscricao_verao, $locale_relatorio);
+
+    foreach ($cursos_ofertados as $curso) {
+      
+      $contagem[$curso->id_curso_verao] = $this->ContaInscricoes($relatorio_disponivel->id_inscricao_verao, $curso->id_curso_verao);
+
+    }
 
   $nome_programa_pos = new ProgramaPos();
 
@@ -400,7 +404,8 @@ class RelatorioController extends BaseController
 
   $local_arquivos['arquivo_zip'] = str_replace($endereco_zip_mudar, 'storage/', $local_arquivos['arquivo_zip']);
 
-  return view('templates.partials.coordenador.relatorio_pos_edital_vigente')->with(compact('monitoria','nome_programas', 'programa_para_inscricao','contagem', 'total_inscritos', 'relatorio_disponivel','arquivos_zipados_para_view','relatorio_csv','local_arquivos'));
+  return view('templates.partials.coordenador.relatorio_pos_edital_vigente')->with(compact('monitoria','contagem', 'total_inscritos', 'cursos_ofertados', 'relatorio_disponivel','arquivos_zipados_para_view','relatorio_csv','local_arquivos'));
+
   }
 
 
@@ -414,7 +419,6 @@ class RelatorioController extends BaseController
     $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio->edital);
 
     $relatorio_csv = Writer::createFromPath($locais_arquivos['local_relatorios'].$locais_arquivos['arquivo_relatorio_csv'], 'w+');
-    
 
     $relatorio_csv->insertOne($this->ConsolidaCabecalhoCSV());
 
@@ -466,7 +470,7 @@ class RelatorioController extends BaseController
       
     }
 
-    $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio->edital, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio->programa);
+    $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio->edital, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio->tipo_evento);
     
 
     return $this->getArquivosRelatorios($id_inscricao_verao,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
