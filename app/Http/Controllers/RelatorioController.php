@@ -284,8 +284,7 @@ class RelatorioController extends BaseController
 
     $nome_programa_pos = new ProgramaPos();
 
-    $programa_para_relatorio = $nome_programa_pos->pega_programa_pos_mat($programas, $locale_relatorio);
-
+    $programa_para_relatorio = strtr($nome_programa_pos->pega_programa_pos_mat($programas, $locale_relatorio), $this->normalizeChars);
     
     $inscricoes_zipadas = 'Inscricoes_'.$programa_para_relatorio.'.zip';
     $arquivos_zipados_para_view[$programas] = $inscricoes_zipadas;
@@ -297,7 +296,9 @@ class RelatorioController extends BaseController
      foreach (glob( $local_relatorios.'Inscricao_'.$programa_para_relatorio.'*') as $fileName ){
         $file = basename( $fileName );
         $zip->addFile( $fileName, $file );
+
      }
+
      $zip->close();
     }
     
@@ -471,7 +472,6 @@ class RelatorioController extends BaseController
     }
 
     $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio->ano_evento, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio->tipo_evento);
-    
 
     return $this->getArquivosRelatorios($id_inscricao_verao,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
   }
