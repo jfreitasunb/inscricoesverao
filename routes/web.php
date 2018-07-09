@@ -96,8 +96,6 @@ Route::prefix('admin')->middleware('user.role:admin', 'impersonate.user')->group
 
 	Route::get('chart', '\Veraomat\Http\Controllers\GraficosController@index')->name('ver.charts');
 
-	Route::get('inscricoes/nao/finalizadas', '\Veraomat\Http\Controllers\Admin\ListaInscricaoNaoFinalizadasController@getInscricoesNaoFinalizadas')->name('inscricoes.nao.finalizadas');
-
 });
 
 Route::resource('admin/datatable/users', 'DataTable\UserController');
@@ -144,9 +142,7 @@ Route::prefix('coordenador')->middleware('user.role:coordenador,admin')->group(f
 
 	Route::get('relatorios/anteriores', '\Veraomat\Http\Controllers\RelatorioController@getListaRelatoriosAnteriores')->name('relatorio.anteriores');
 
-	Route::get('inscricao/lista/recomendacoes', '\Veraomat\Http\Controllers\Admin\ListaTodasIndicacoesController@getListaIndicacoes')->name('lista.recomendacoes');
-
-	Route::post('inscricao/lista/recomendacoes', '\Veraomat\Http\Controllers\Admin\ListaTodasIndicacoesController@postListaIndicacoes');
+	Route::get('inscricoes/nao/finalizadas', '\Veraomat\Http\Controllers\Admin\ListaInscricaoNaoFinalizadasController@getInscricoesNaoFinalizadas')->name('inscricoes.nao.finalizadas');
 });
 
 
