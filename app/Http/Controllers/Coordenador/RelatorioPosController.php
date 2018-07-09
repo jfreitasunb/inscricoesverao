@@ -83,22 +83,7 @@ class RelatorioPosController extends CoordenadorController
 
 		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_verao, $this->locale_default)->paginate(10);
 
-
-		foreach ($inscricoes_finalizadas as $candidato ) {
-
-			$cartas = new CartaRecomendacao();
-
-			$total_cartas[$candidato->id_candidato]=  $cartas->conta_cartas_enviadas_por_candidato($candidato->id_inscricao_verao, $candidato->id_candidato);
-		}
-
-		$classes_linhas[0] = 'danger';
-		$classes_linhas[1] = 'warning';
-		$classes_linhas[2] = 'info';
-		$classes_linhas[3] = 'success';
-
-
-
-		return view('templates.partials.coordenador.ficha_individual', compact('inscricoes_finalizadas', 'total_cartas', 'classes_linhas', 'nome_pdf', 'id_aluno_pdf'));
+		return view('templates.partials.coordenador.ficha_individual', compact('inscricoes_finalizadas', 'nome_pdf', 'id_aluno_pdf'));
 		
 	}
 
