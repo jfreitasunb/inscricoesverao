@@ -1,40 +1,6 @@
 <div class="row">
     <div class="col-sm-3 col-md-2">
         <div class="panel-group" id="accordion">
-            <div class="menuadmin panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseUm"><span class="glyphicon glyphicon-user fa-fw">
-                        </span>Contas</a>
-                    </h4>
-                </div>
-                <div id="collapseUm" class="panel-collapse collapse {{ $keep_open_accordion_contas }}">
-                    <div class="panel-body">
-                        <table class="table">
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('pesquisa.email.muda.senha') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-cog fa-fw"></span><a href="{{ route('pesquisa.email.muda.senha') }}">Link mudança de senha</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('admin.impersonate') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-cog fa-fw"></span><a href="{{ route('admin.impersonate') }}">Logar como</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('pesquisa.usuario') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-cog fa-fw"></span><a href="{{ route('pesquisa.usuario') }}">Ativar/Alterar conta</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class= "{{ Route::currentRouteNamed('lista.inativos') ? 'active_link' : '' }}">
-                                    <span class="glyphicon glyphicon-cog fa-fw"></span><a href="{{ route('lista.inativos') }}">Usuários Inativos</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    </div>
-                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -51,13 +17,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class= "{{ Route::currentRouteNamed('editar.inscricao') ? 'active_link' : '' }}">
-                                        <span class="glyphicon glyphicon-pencil fa-fw"></span><a href="{{ route('editar.inscricao') }}">Editar Inscrição</a>
+                                    <td class= "{{ Route::currentRouteNamed('cadastra.area.pos') ? 'active_link' : '' }}">
+                                        <span class="glyphicon glyphicon-pencil fa-fw"></span><a href="{{ route('cadastra.area.pos') }}">Cadastrar novo Curso</a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class= "{{ Route::currentRouteNamed('reativar.candidato') || Route::currentRouteNamed('pesquisa.candidato') ? 'active_link' : '' }}">
-                                        <span class="glyphicon glyphicon-refresh fa-fw"></span><a href="{{ route('reativar.candidato') }}">Reativar Inscrição Candidato</a>
+                                    <td class= "{{ Route::currentRouteNamed('editar.area.pos') ? 'active_link' : '' }}">
+                                        <span class="glyphicon glyphicon-refresh fa-fw"></span><a href="{{ route('editar.area.pos') }}">Editar Formação</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -114,24 +80,12 @@
         </div>
         <div class="col-sm-9 col-md-10">
             <div class="menuadmin well">
-                @yield('admin_impersonate')
-                @yield('ativa_conta')
-                @yield('link_muda_senha')
-                @yield('contas_inativas')
-                @yield('visualiza_associacoes')
-                @yield('cadastra_disciplina')
+                @yield('cadastra_area_pos')
                 @yield('configura_inscricao')
-                @yield('editar_inscricao')
-                @yield('reativar_inscricao_candidato')
-                @yield('reativar_carta_enviada')
-                @yield('acha_indicacoes')
-                @yield('associa_recomendate')
+                @yield('edita_area_pos')
                 @yield('nao_finalizadas')
-                @yield('tabela_indicacoes')
-                @yield('altera_recomendantes')
                 @yield('relatorio_pos_edital_vigente')
                 @yield('relatorio_pos_editais_anteriores')
-                @yield('datatable_users')
                 @yield('ficha_individual')
                 @yield('graficos')
             </div>
