@@ -433,7 +433,7 @@ class RelatorioController extends BaseController
 
       $dados_candidato_para_relatorio = [];
 
-      $dados_candidato_para_relatorio['edital'] = $relatorio->edital;
+      $dados_candidato_para_relatorio['ano_evento'] = $relatorio->ano_evento;
 
       $dados_candidato_para_relatorio['id_candidato'] = $candidato->id_candidato;
 
@@ -487,7 +487,7 @@ class RelatorioController extends BaseController
 
       $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel->ano_evento);
 
-      $dados_candidato_para_relatorio['edital'] = $relatorio_disponivel->edital;
+      $dados_candidato_para_relatorio['ano_evento'] = $relatorio_disponivel->ano_evento;
 
       $dados_candidato_para_relatorio['id_candidato'] = $id_candidato;
 
@@ -540,7 +540,7 @@ class RelatorioController extends BaseController
 
     $relatorio_disponivel = ConfiguraInscricaoPos::find($id_inscricao_verao);
 
-    $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel['edital']);
+    $locais_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel['ano_evento']);
 
     $relatorio_csv = Writer::createFromPath($locais_arquivos['local_relatorios'].$locais_arquivos['arquivo_relatorio_csv'], 'w+');
 
@@ -557,7 +557,7 @@ class RelatorioController extends BaseController
 
       $dados_candidato_para_relatorio = [];
 
-      $dados_candidato_para_relatorio['edital'] = $relatorio_disponivel->edital;
+      $dados_candidato_para_relatorio['ano_evento'] = $relatorio_disponivel->ano_evento;
 
       $dados_candidato_para_relatorio['id_candidato'] = $candidato->id_candidato;
 
@@ -592,7 +592,7 @@ class RelatorioController extends BaseController
       
     }
 
-    $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio_disponivel->edital, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio_disponivel->programa);
+    $arquivos_zipados_para_view = $this->ConsolidaArquivosZIP($relatorio_disponivel->ano_evento, $locais_arquivos['arquivo_zip'], $locais_arquivos['local_relatorios'], $relatorio_disponivel->tipo_evento);
 
     return $this->getArquivosRelatoriosAnteriores($id_inscricao_verao,$arquivos_zipados_para_view, $locais_arquivos['arquivo_relatorio_csv']);
   }
