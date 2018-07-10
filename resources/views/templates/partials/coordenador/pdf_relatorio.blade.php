@@ -76,12 +76,15 @@
         @endif
 
         <hr>
-        <h3>Programa pretendido</h3>
+        <h3>Curso solicitados:</h3>
         @if ($dados_candidato_para_relatorio['curso_verao'])
-            <div>
-                <label> {{ trans('tela_escolha_candidato.curso_verao') }} </label>
-                <ul>{!! str_replace("_", "<br>", $dados_candidato_para_relatorio['curso_verao']) !!}</ul>
-            </div>
+            <ul>
+                @foreach (explode("_", $dados_candidato_para_relatorio['curso_verao']) as $element)
+                    @if ($element<>"")
+                        <li>{!! $element !!}</li>
+                    @endif
+                @endforeach
+            </ul>
         @endif
     </body>
 </html>
