@@ -80,10 +80,11 @@ class RelatorioPosController extends CoordenadorController
 			$id_aluno_pdf = null;
 		}
 		
+		$new_user = null;
 
 		$inscricoes_finalizadas = $finalizacoes->retorna_usuarios_relatorio_individual($relatorio_disponivel->id_inscricao_verao, $this->locale_default)->paginate(10);
 
-		return view('templates.partials.coordenador.ficha_individual', compact('inscricoes_finalizadas', 'nome_pdf', 'id_aluno_pdf'));
+		return view('templates.partials.coordenador.ficha_individual', compact('inscricoes_finalizadas', 'nome_pdf', 'id_aluno_pdf', 'new_user'));
 		
 	}
 
