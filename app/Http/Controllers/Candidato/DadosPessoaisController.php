@@ -217,7 +217,6 @@ class DadosPessoaisController extends BaseController
 	
 		$dados_pessoais = [
 			'id_candidato' => $id_candidato,
-			'nome' => Purifier::clean(trim($request->input('nome'))),
 			'data_nascimento' => $data_nascimento,
 			'numerorg' => Purifier::clean(trim($request->input('numerorg'))),
 			'endereco' => Purifier::clean(trim($request->input('endereco'))),
