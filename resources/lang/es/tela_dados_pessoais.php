@@ -7,7 +7,7 @@
 return [
     'tela_dados_pessoais' => 'Datos Personales',
     'nome' => 'Nombre',
-    'rg' => 'RG',
+    'rg' => 'Número de Pasaporte',
     'data_nascimento' => 'Fecha de Nacimiento',
     'endereco' => 'Dirección',
     'endereco_pessoal' => 'Dirección Personal',

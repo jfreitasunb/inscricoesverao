@@ -8,7 +8,7 @@ return [
     'tela_dados_pessoais' => 'Dados Pessoais',
     'nome' => 'Nome',
     'email' => 'E-mail',
-    'rg' => 'No. Documento de Identificação',
+    'rg' => 'CPF ou Passaporte',
     'data_nascimento' => 'Data de Nascimento',
     'endereco' => 'Endereço',
     'endereco_pessoal' => 'Endereço Pessoal',
