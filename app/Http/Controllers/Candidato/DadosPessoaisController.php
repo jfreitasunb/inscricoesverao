@@ -127,7 +127,7 @@ class DadosPessoaisController extends BaseController
 				'numerorg' => $dados_pessoais->numerorg,
 				'emissorrg' => $dados_pessoais->emissorrg,
 				'cpf' => $dados_pessoais->cpf,
-				'data_nascimento' => $data_nascimento,
+				'data_nascimento' => null,
 				'endereco' => $dados_pessoais->endereco,
 				'pais' => $pais,
 				'estado' => $estado,
@@ -180,7 +180,7 @@ class DadosPessoaisController extends BaseController
 				'numerorg' => $dados_pessoais->numerorg,
 				'emissorrg' => $dados_pessoais->emissorrg,
 				'cpf' => $dados_pessoais->cpf,
-				'data_nascimento' => $dados_pessoais->data_nascimento,
+				'data_nascimento' => null,
 				'endereco' => $dados_pessoais->endereco,
 				'pais' => $dados_pessoais->pais,
 				'estado' => $dados_pessoais->estado,
@@ -199,7 +199,6 @@ class DadosPessoaisController extends BaseController
 	{
 		$this->validate($request, [
 			'nome' => 'max:256',
-			'data_nascimento' => 'required',
 			'numerorg' => 'required|max:21',
 			'endereco' => 'required|max:256',
 			'cep' => 'required|max:20',
@@ -211,13 +210,13 @@ class DadosPessoaisController extends BaseController
 		
 		$id_candidato = $user->id_user;
 
-		$nascimento = Carbon::createFromFormat('d/m/Y', Purifier::clean(trim($request->data_nascimento)));
+		// $nascimento = Carbon::createFromFormat('d/m/Y', Purifier::clean(trim($request->data_nascimento)));
 
-		$data_nascimento = $nascimento->format('Y-m-d');
+		// $data_nascimento = $nascimento->format('Y-m-d');
 	
 		$dados_pessoais = [
 			'id_candidato' => $id_candidato,
-			'data_nascimento' => $data_nascimento,
+			'data_nascimento' => null,
 			'numerorg' => Purifier::clean(trim($request->input('numerorg'))),
 			'endereco' => Purifier::clean(trim($request->input('endereco'))),
 			'cep' => Purifier::clean(trim($request->input('cep'))),
@@ -236,7 +235,7 @@ class DadosPessoaisController extends BaseController
 		if (is_null($candidato)) {
 			$cria_candidato = new DadoPessoalCandidato();
 			$cria_candidato->id_candidato = $id_candidato;
-			$cria_candidato->data_nascimento = $data_nascimento;
+			$cria_candidato->data_nascimento = null;
 			$cria_candidato->numerorg = Purifier::clean(trim($request->input('numerorg')));
 			$cria_candidato->endereco = Purifier::clean(trim($request->input('endereco')));
 			$cria_candidato->cep = Purifier::clean(trim($request->input('cep')));

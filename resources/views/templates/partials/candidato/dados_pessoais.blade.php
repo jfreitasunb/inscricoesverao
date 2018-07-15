@@ -32,7 +32,7 @@
           </div>
         @endif
         
-        @if ($editar_dados)
+{{--         @if ($editar_dados)
           <div class="row">
             {!! Form::label('data_nascimento', trans('tela_dados_pessoais.data_nascimento'), ['class' => 'col-md-4 control-label'])!!}
             <div class="col-md-4">
@@ -46,7 +46,7 @@
               {!! Form::text('nascimento', $dados['data_nascimento'] ?: '' , ['class' => 'form-control input-md formhorizontal', 'disabled' => 'disabled']) !!}
             </div>
           </div>
-        @endif
+        @endif --}}
         
 
         @if ($editar_dados)

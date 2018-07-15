@@ -60,9 +60,9 @@
             <label class="control-label">{{ trans('tela_dados_pessoais.email') }}: </label>{{ $dados_candidato_para_relatorio['email'] }}
         </div>
 
-        <div>
+{{--         <div>
             <label class="control-label">{{ trans('tela_dados_pessoais.data_nascimento') }}: </label>{{ $dados_candidato_para_relatorio['data_nascimento'] }}
-        </div>
+        </div> --}}
         <hr>
         <h3>{{ trans('tela_dados_pessoais.endereco_pessoal') }}</h3>
         <div>
