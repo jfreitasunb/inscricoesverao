@@ -165,6 +165,10 @@ class EscolhaCandidatoController extends BaseController
 
 			$programa_pretendido = 2;
 
+			$escolhas = new EscolhaCursoVerao();
+
+			$escolhas->limpa_escolhas_anteriores($id_candidato, $id_inscricao_verao);
+			// dd('deletou');
 			if ($programa_pretendido === 2) {
 				
 				foreach ($request->curso_desejado as $escolhido) {
