@@ -6,9 +6,12 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EscolhaCursoVerao extends Model
 {
+    use SoftDeletes;
+
     protected $primaryKey = 'id';
 
     protected $table = 'escolhas_curso_verao';
@@ -17,6 +20,7 @@ class EscolhaCursoVerao extends Model
         'programa_pretendido',
         'curso_verao',
         'id_inscricao_verao',
+        'deleted_at',
     ];
 
     public function retorna_escolha_candidato($id_candidato,$id_inscricao_verao)
