@@ -65,4 +65,9 @@ class EscolhaCursoVerao extends Model
     {
         return $this->select('id_candidato')->where('programa_pretendido', '2')->where('area_pos', $area_pos)->where('id_inscricao_verao', $id_inscricao_verao)->get()->pluck('id_candidato');
     }
+
+    public function limpa_escolhas_anteriores($id_candidato, $id_inscricao_verao)
+    {
+        return $this->where('id_candidato', $id_candidato)->where('id_inscricao_verao', $id_inscricao_verao)->delete();
+    }
 }
