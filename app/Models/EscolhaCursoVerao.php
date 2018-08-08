@@ -6,9 +6,12 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EscolhaCursoVerao extends Model
 {
+    use SoftDeletes;
+
     protected $primaryKey = 'id';
 
     protected $table = 'escolhas_curso_verao';
@@ -17,6 +20,7 @@ class EscolhaCursoVerao extends Model
         'programa_pretendido',
         'curso_verao',
         'id_inscricao_verao',
+        'deleted_at',
     ];
 
     public function retorna_escolha_candidato($id_candidato,$id_inscricao_verao)
@@ -64,5 +68,10 @@ class EscolhaCursoVerao extends Model
     public function retorna_inscritos_por_area_pos($area_pos, $id_inscricao_verao)
     {
         return $this->select('id_candidato')->where('programa_pretendido', '2')->where('area_pos', $area_pos)->where('id_inscricao_verao', $id_inscricao_verao)->get()->pluck('id_candidato');
+    }
+
+    public function limpa_escolhas_anteriores($id_candidato, $id_inscricao_verao)
+    {
+        return $this->where('id_candidato', $id_candidato)->where('id_inscricao_verao', $id_inscricao_verao)->delete();
     }
 }

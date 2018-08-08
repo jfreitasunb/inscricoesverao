@@ -164,14 +164,11 @@ class EscolhaCandidatoController extends BaseController
 			]);
 
 			$programa_pretendido = 2;
+
+			$escolhas = new EscolhaCursoVerao();
+
+			$escolhas->limpa_escolhas_anteriores($id_candidato, $id_inscricao_verao);
 			
-			// if (is_null($request->curso_desejado) and ($request->programa_pretendido === '2')) {
-				
-			// 	notify()->flash(trans('mensagens_gerais.informe_area'),'warning');
-
-			// 	return redirect()->back();
-			// }
-
 			if ($programa_pretendido === 2) {
 				
 				foreach ($request->curso_desejado as $escolhido) {

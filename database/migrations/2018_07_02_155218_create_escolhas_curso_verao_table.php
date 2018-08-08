@@ -22,6 +22,7 @@ class CreateEscolhasCursoVeraoTable extends Migration
             $table->foreign('curso_verao')->references('id_curso_verao')->on('curso_verao_mat')->onDelete('cascade');
             $table->unsignedInteger('id_inscricao_verao');
             $table->foreign('id_inscricao_verao')->references('id_inscricao_verao')->on('configura_inscricao_verao')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
