@@ -41,10 +41,6 @@
         <div>
             <label class="control-label">Nome: </label>{{ $dados_candidato_para_relatorio['nome'] }}
         </div>
-        <div>
-            <label class="control-label">Data de nascimento: </label>{{ $dados_candidato_para_relatorio['data_nascimento'] }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <label class="control-label">Idade: </label>{{ $dados_candidato_para_relatorio['idade'].' anos' }}
-        </div>
         <hr>
         <h3>Endereço Pessoal</h3>
         <div>
