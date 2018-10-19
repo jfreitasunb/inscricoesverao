@@ -13,17 +13,6 @@
 </fieldset>
 
 {!! Form::open(array('route' => 'dados.escolhas', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'data-parsley-validate' => '' )) !!}
-    {{-- <fieldset class="scheduler-border">
-      <legend class="scheduler-border">{{trans('tela_escolha_candidato.programa_disponivel')}}</legend>
-        <div class="row">
-          @foreach($programa_para_inscricao as $programa => $key)
-            <div class="col-md-4">
-              <label class="radio-inline">{!! Form::radio('programa_pretendido', $programa, $dados['programa_pretendido'] == $programa ?: '', ['required' => '']) !!} {!! $key !!}</label>
-            </div>
-          @endforeach
-        </div>
-    </fieldset> --}}
-
     @if(isset($cursos_verao))
       <fieldset class="scheduler-border">
         <legend class="scheduler-border">{{trans('tela_escolha_candidato.texto_cursos_verao')}}</legend>
