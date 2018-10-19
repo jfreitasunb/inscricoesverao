@@ -19,7 +19,7 @@
           <div class="row"">
               @foreach ($cursos_verao as $curso)
                 <div class="col-md-4">
-                  <label class="radio-inline">{!! Form::checkbox('curso_desejado[]', $curso->id_curso_verao, False , []) !!}{{ " ".$curso->$nome_coluna }}{{ $curso->seleciona_pos ? " (Seleciona para a Pós)" : "" }}</label>
+                  <label class="radio-inline">{!! Form::radio('curso_desejado[]', $curso->id_curso_verao, False , []) !!}{{ " ".$curso->$nome_coluna }}{{ $curso->seleciona_pos ? " (Seleciona para a Pós)" : "" }}</label>
                 </div>    
               @endforeach
           </div>
