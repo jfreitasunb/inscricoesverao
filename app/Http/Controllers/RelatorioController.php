@@ -431,7 +431,7 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      $linha_arquivo['programa_pretendido'] = $dados_candidato_para_relatorio['programa_pretendido'];
+      $linha_arquivo['curso_verao'] = str_replace("_",", ",$dados_candidato_para_relatorio['curso_verao']);
 
       $nome_arquivos = [];
 
@@ -552,7 +552,7 @@ class RelatorioController extends BaseController
         $dados_candidato_para_relatorio[$key] = $value;
       }
 
-      $linha_arquivo['programa_pretendido'] = $dados_candidato_para_relatorio['programa_pretendido'];
+      $linha_arquivo['curso_verao'] = str_replace("_",", ",$dados_candidato_para_relatorio['curso_verao']);
 
       $nome_arquivos = $this->ConsolidaNomeArquivos($locais_arquivos['arquivos_temporarios'], $locais_arquivos['local_relatorios'], $dados_candidato_para_relatorio);
       
