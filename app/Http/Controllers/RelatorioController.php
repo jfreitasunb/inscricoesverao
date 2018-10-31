@@ -64,7 +64,7 @@ class RelatorioController extends BaseController
   public function ConsolidaCabecalhoCSV()
   {
 
-    return $cabecalho = ["Nome","E-mail","Programa Pretendido"];
+    return $cabecalho = ["Nome","E-mail","Curso Escolhido"];
   }
 
   public function ConsolidaLocaisArquivos($edital)
