@@ -229,36 +229,20 @@ class RelatorioController extends BaseController
 
     $documento = new Documento();
     
-    // $nome_documento_banco = $local_documentos.$documento->retorna_documento($id_candidato, $id_inscricao_verao)->nome_arquivo;
-
     $nome_historico_banco = $local_documentos.$documento->retorna_historico($id_candidato, $id_inscricao_verao)->nome_arquivo;
 
-    // if (File::extension($nome_documento_banco) != 'pdf')
-    //   {
+    if (File::extension($nome_historico_banco) != 'pdf')
+    {
 
-        
-    //     $nome_documento_pdf = str_replace(File::extension($nome_documento_banco),'pdf', $nome_documento_banco);
+      $nome_historico_pdf = str_replace(File::extension($nome_historico_banco),'pdf', $nome_historico_banco);
+      
+      DB::table('arquivos_enviados')->where('nome_arquivo', $nome_historico_banco)->where('tipo_arquivo', 'Histórico')->where('id_inscricao_verao', $id_inscricao_verao)->update(['nome_arquivo' => $nome_historico_pdf]);
 
-    //     DB::table('arquivos_enviados')->where('nome_arquivo', $nome_documento_banco)->where('tipo_arquivo', 'Documentos')->where('id_inscricao_verao', $id_inscricao_verao)->update(['nome_arquivo' => $nome_documento_pdf]);
+      $img = new Imagick($nome_historico_banco);
+      $img->setImageFormat('pdf');
+      $success = $img->writeImage($nome_historico_pdf);
+    }
 
-    //     $img = new Imagick($nome_documento_banco);
-    //     $img->setImageFormat('pdf');
-    //     $success = $img->writeImage($nome_documento_pdf);
-    //   }
-
-      if (File::extension($nome_historico_banco) != 'pdf')
-      {
-
-        $nome_historico_pdf = str_replace(File::extension($nome_historico_banco),'pdf', $nome_historico_banco);
-        
-        DB::table('arquivos_enviados')->where('nome_arquivo', $nome_historico_banco)->where('tipo_arquivo', 'Histórico')->where('id_inscricao_verao', $id_inscricao_verao)->update(['nome_arquivo' => $nome_historico_pdf]);
-
-        $img = new Imagick($nome_historico_banco);
-        $img->setImageFormat('pdf');
-        $success = $img->writeImage($nome_historico_pdf);
-      }
-
-    // $nome_uploads['documento_pdf'] = str_replace(File::extension($nome_documento_banco),'pdf', $nome_documento_banco);
     $nome_uploads['historico_pdf'] = str_replace(File::extension($nome_historico_banco),'pdf', $nome_historico_banco);
 
     return $nome_uploads;
