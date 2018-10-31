@@ -278,9 +278,8 @@ class RelatorioController extends BaseController
     if ( $zip->open( $arquivo_zip.$inscricoes_zipadas, ZipArchive::CREATE ) === true ){
 
      foreach (glob( $local_relatorios.'Inscricao_'.$programa_para_relatorio.'*') as $fileName ){
-        $file = basename( $fileName );
-        $zip->addFile( $fileName, $file );
-
+      $file = basename( $fileName );
+      $zip->addFile( $fileName, $file );
      }
 
      $zip->close();
@@ -309,8 +308,6 @@ class RelatorioController extends BaseController
     }
 
     $total_inscritos = array_sum($contagem);
-
-    // $nome_programas = implode('/', $programa_para_inscricao);
 
     $arquivos_zipados_para_view = "";
 
@@ -381,9 +378,6 @@ class RelatorioController extends BaseController
   $local_arquivos = $this->ConsolidaLocaisArquivos($relatorio_disponivel->ano_evento);
 
   $endereco_zip_mudar = '/var/www/inscricoesverao/storage/app/public/';
-
-  //Para ser usado no MAT
-  // $endereco_zip_mudar = '/var/www/inscricoesverao/storage/app/public/';
 
   $local_arquivos['local_relatorios'] = str_replace($endereco_zip_mudar, 'storage/', $local_arquivos['local_relatorios']);
 
@@ -497,9 +491,6 @@ class RelatorioController extends BaseController
       $this->ConsolidaFichaRelatorio($nome_arquivos, $nome_uploads);
 
       $endereco_mudar = '/var/www/inscricoesverao/storage/app/public/';
-
-      //Para ser usado no MAT
-      // $endereco_mudar = '/var/www/inscricoesverao/storage/app/public/';
       
       return str_replace($endereco_mudar, 'storage/', $nome_arquivos['arquivo_relatorio_candidato_final']);
   }
@@ -592,9 +583,6 @@ class RelatorioController extends BaseController
   {
 
     $endereco_mudar = '/var/www/inscricoesverao/storage/app/public/';
-
-    //Para ser usado no MAT
-    // $endereco_mudar = '/var/www/inscricoesverao/storage/app/public/';
     
     $relatorio = new ConfiguraInscricaoPos();
 
